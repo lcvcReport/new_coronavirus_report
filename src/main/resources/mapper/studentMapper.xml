@@ -17,7 +17,7 @@
         <if test="objectQuery!=null">
             <where>
                 <if test="objectQuery.studentNumber!=null and objectQuery.studentNumber.length()>0">
-                    and teacherNumber=#{objectQuery.teacherNumber}
+                    and studentNumber=#{objectQuery.studentNumber}
                 </if>
                 <if test="objectQuery.name!=null and objectQuery.name.length()>0">
                     <!-- bind，重新定义一个变量，可用于模糊查询等，并且可以直接覆盖原变量 -->
@@ -37,24 +37,19 @@
     </sql>
 
     <select id="readAll" resultType="Teacher">
-        select * from teacher
+        select * from student
         <include refid="queryWhere"></include>
-        order by teacherNumber asc
+        order by studentNumber asc
     </select>
 
     <select id="query" resultType="Questionnaire">
-        select * from teacher
+        select * from student
         <include refid="queryWhere"></include>
-        order by id desc limit #{offset},#{length}
+        order by studentNumber asc limit #{offset},#{length}
     </select>
 
     <select id="querySize" resultType="Integer">
-        select count(1)  from teacher
+        select count(1)  from student
         <include refid="queryWhere"></include>
     </select>
-
-    <select id="readAll" resultType="Teacher">
-        select * from student order by studentNumber asc
-    </select>
-
 </mapper>

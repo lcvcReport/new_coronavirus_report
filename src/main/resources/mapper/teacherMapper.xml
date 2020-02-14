@@ -40,7 +40,7 @@
     <select id="query" resultType="Questionnaire">
         select * from teacher
         <include refid="queryWhere"></include>
-        order by id desc limit #{offset},#{length}
+        order by teacherNumber asc limit #{offset},#{length}
     </select>
 
     <select id="querySize" resultType="Integer">

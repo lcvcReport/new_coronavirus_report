@@ -2,6 +2,7 @@ package com.lcvc.new_coronavirus_report.service;
 
 import com.lcvc.new_coronavirus_report.dao.AdminDao;
 import com.lcvc.new_coronavirus_report.model.Admin;
+import com.lcvc.new_coronavirus_report.model.exception.MyServiceException;
 import com.lcvc.new_coronavirus_report.model.exception.MyWebException;
 import com.lcvc.new_coronavirus_report.util.SHA;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,6 +65,29 @@ public class AdminService {
             admin=adminDao.getAdminByUsername(username);
         }
         return admin;
+    }
+
+    /**
+     * 修改密码
+     * 说明：
+     * 1.本方法不对原密码、新密码和确认密码的规则进行验证，请在web层验证后再传入
+     * @param username 必填
+     * @param password 必填
+     * @param newPass 必填
+     * @param rePass 必填
+     */
+    public void updatePassword(String username,String password,String newPass,String rePass){
+        //在web层已对密码字段进行验证
+        if(!newPass.equals(rePass)){
+            throw new MyWebException("密码修改失败：确认密码与新密码必须相同");
+        }
+        if(this.login(username, password)){//说明原密码正确
+            Admin admin=adminDao.getAdminByUsername(username);
+            admin.setPassword(SHA.getResult(newPass));
+            adminDao.update(admin);
+        }else{
+            throw new MyServiceException("密码修改失败：原密码错误");
+        }
     }
 
 }

@@ -3,11 +3,12 @@ package com.lcvc.new_coronavirus_report.web.action.backstage;
 import com.lcvc.new_coronavirus_report.model.Admin;
 import com.lcvc.new_coronavirus_report.model.base.Constant;
 import com.lcvc.new_coronavirus_report.model.base.JsonCode;
+import com.lcvc.new_coronavirus_report.model.form.AdminPasswordEditForm;
 import com.lcvc.new_coronavirus_report.service.AdminService;
+import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
@@ -15,33 +16,19 @@ import java.util.Map;
 
 
 @RestController
-@RequestMapping(value = "/api/backstage")
+@RequestMapping(value = "/api/admin")
 public class AdminController {
 
     @Autowired
     private AdminService adminService;
 
-    @GetMapping(value = "/login")
-    public Map<String, Object> login(String username, String password, HttpSession session){
-        Map<String, Object> map=new HashMap<String, Object>();
-        map.put(Constant.JSON_CODE, JsonCode.ERROR.getValue());
-        if(adminService.login(username, password)){//如果登录成功
-            Admin admin=adminService.getAdmin(username);
-            session.setAttribute("admin",admin);
-            map.put(Constant.JSON_CODE, JsonCode.SUCCESS.getValue());
-            //map.put(Constant.JSON_DATA,admin.getUsername());//将账户名值传递到前端先存储，供后端交互
-        }else{
-            map.put(Constant.JSON_MESSAGE, "登录失败：用户名和密码错误");
-        }
-        return map;
-    }
-
-    @GetMapping("/logout")
-    public Map<String, Object> logout(HttpSession session){
-        Map<String, Object> map=new HashMap<String, Object>();
-        session.removeAttribute("admin");
+    @PatchMapping("/password")
+    public Map<String, Object> updatePassword(@RequestBody @Validated AdminPasswordEditForm adminPasswordEditForm, HttpSession session) {
+        Admin admin=((Admin) session.getAttribute("admin"));
+        Map<String, Object> map = new HashMap<String, Object>();
+        adminService.updatePassword(admin.getUsername(),adminPasswordEditForm.getPassword(),adminPasswordEditForm.getNewPass(),adminPasswordEditForm.getRePass());
         map.put(Constant.JSON_CODE, JsonCode.SUCCESS.getValue());
-        map.put(Constant.JSON_MESSAGE, "成功注销用户");
+        map.put(Constant.JSON_MESSAGE, "密码修改成功");
         return map;
     }
 
