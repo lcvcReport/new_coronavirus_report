@@ -27,6 +27,38 @@
                 <if test="objectQuery.sex!=null and objectQuery.sex.length()>0">
                     and sex=#{objectQuery.sex}
                 </if>
+                <bind name="department" value="objectQuery.department" />
+                <if test="department!=null and department.length()>0">
+                    and department=#{department}
+                </if>
+                <if test="objectQuery.reportTodayQuery!=null">
+                    <if test="objectQuery.reportTodayQuery==false">
+                        and  teacherNumber NOT IN
+                        (select questionnaire.teacherNumber from questionnaire,teacher
+                        <where>
+                            <if test="department!=null and department.length()>0">
+                                and department=#{department}
+                            </if>
+                            and teacher.teacherNumber=questionnaire.teacherNumber
+                            and identity='teacher'
+                            and to_days(createTime)=to_days(now())
+                        </where>
+                        )
+                    </if>
+                    <if test="objectQuery.reportTodayQuery==true">
+                        and  teacherNumber  IN
+                        (select questionnaire.teacherNumber from questionnaire,teacher
+                        <where>
+                            <if test="department!=null and department.length()>0">
+                                and department=#{department}
+                            </if>
+                            and teacher.teacherNumber=questionnaire.teacherNumber
+                            and identity='teacher'
+                            and to_days(createTime)=to_days(now())
+                        </where>
+                        )
+                    </if>
+                </if>
             </where>
         </if>
     </sql>
@@ -37,7 +69,7 @@
         order by teacherNumber asc
     </select>
 
-    <select id="query" resultType="Questionnaire">
+    <select id="query" resultType="Teacher">
         select * from teacher
         <include refid="queryWhere"></include>
         order by teacherNumber asc limit #{offset},#{length}
@@ -47,5 +79,30 @@
         select count(1)  from teacher
         <include refid="queryWhere"></include>
     </select>
+
+
+    <!--==================================定制查询============================-->
+
+    <select id="getTeacherNotReportToday" resultType="Teacher">
+        SELECT * from teacher
+        <where>
+            <if test="department!=null and department.length()>0">
+                and department=#{department}
+            </if>
+            and  teacherNumber NOT IN
+            (select questionnaire.teacherNumber from questionnaire,teacher
+             <where>
+                <if test="department!=null and department.length()>0">
+                    and department=#{department}
+                </if>
+                 and teacher.teacherNumber=questionnaire.teacherNumber
+                 and identity='teacher'
+                 and to_days(createTime)=to_days(now())
+             </where>
+            )
+        </where>
+
+    </select>
+
 
 </mapper>

@@ -94,7 +94,7 @@ public class QuestionnaireExcelController {
 
     //获取今天的表1-3的内容
     @GetMapping("/comeFromHuBei")
-    public String getTable3(Integer page, Integer limit,HttpServletResponse response){
+    public String getTable3(HttpServletResponse response){
         QuestionnaireQuery questionnairequery=new QuestionnaireQuery();
         questionnairequery.setQueryDate(new Date());//查找今天的表内容
         questionnairequery.setComefromHuBei(true);//查询来自湖北的记录
@@ -108,7 +108,7 @@ public class QuestionnaireExcelController {
 
     //获取今天的表1-4的内容
     @GetMapping("/arriveWuHan")
-    public String getTable4(Integer page, Integer limit,HttpServletResponse response){
+    public String getTable4(HttpServletResponse response){
         QuestionnaireQuery questionnairequery=new QuestionnaireQuery();
         questionnairequery.setQueryDate(new Date());//查找今天的表内容
         questionnairequery.setArriveWuHan(true);//查询去过武汉的记录
@@ -122,7 +122,7 @@ public class QuestionnaireExcelController {
 
     //获取今天的表1-5的内容
     @GetMapping("/arriveHuBei")
-    public String getTable5(Integer page, Integer limit,HttpServletResponse response){
+    public String getTable5(HttpServletResponse response){
         QuestionnaireQuery questionnairequery=new QuestionnaireQuery();
         questionnairequery.setQueryDate(new Date());//查找今天的表内容
         questionnairequery.setArriveHuBei(true);//查询去过湖北的记录
@@ -136,7 +136,7 @@ public class QuestionnaireExcelController {
 
     //获取今天的表1-6的内容
     @GetMapping("/stayHuBei")
-    public String getTable6(Integer page, Integer limit,HttpServletResponse response){
+    public String getTable6(HttpServletResponse response){
         QuestionnaireQuery questionnairequery=new QuestionnaireQuery();
         questionnairequery.setQueryDate(new Date());//查找今天的表内容
         questionnairequery.setStayInHubei(true);//查询当前依旧停留在湖北的
@@ -150,7 +150,7 @@ public class QuestionnaireExcelController {
 
     //获取今天的表1-7的内容
     @GetMapping("/touchHuBei")
-    public String getTable7(Integer page, Integer limit,HttpServletResponse response){
+    public String getTable7(HttpServletResponse response){
         QuestionnaireQuery questionnairequery=new QuestionnaireQuery();
         questionnairequery.setQueryDate(new Date());//查找今天的表内容
         questionnairequery.setTouchHuBeiPerson(true);//查询去过密切接触疫区人员的记录
@@ -159,6 +159,22 @@ public class QuestionnaireExcelController {
         XSSFWorkbook book= ExcelWirteForTable.getTouchHuBeiSheet(list);//根据记录，生成excel表格
         //创建文件对象，导出
         this.outExcelStream(response,book," 密切接触过来自或到达过湖北等疫区人员情况表");
+        return "SUCCESS";//这里其实就是随意返回一个字符串
+    }
+
+    //发热记录
+    @GetMapping("/fever")
+    public String fever(){
+        Map<String, Object> map=new HashMap<String, Object>();
+        map.put(Constant.JSON_CODE, JsonCode.SUCCESS.getValue());
+        QuestionnaireQuery questionnairequery=new QuestionnaireQuery();
+        questionnairequery.setQueryDate(new Date());//查找今天的表内容
+        questionnairequery.setFeverQuery(true);//查询发热病人的记录
+        List<Questionnaire> list=questionnaireService.query(questionnairequery);//获取数据记录
+        //导出表格
+        //XSSFWorkbook book= ExcelWirteForTable.getTouchHuBeiSheet(list);//根据记录，生成excel表格
+        //创建文件对象，导出
+        //this.outExcelStream(response,book," 密切接触过来自或到达过湖北等疫区人员情况表");
         return "SUCCESS";//这里其实就是随意返回一个字符串
     }
 

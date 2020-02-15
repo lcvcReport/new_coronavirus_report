@@ -37,7 +37,7 @@ public class QuestionnaireChartController {
         return map;
     }
 
-    //获取近几天来自武汉的人数
+    //获取近几天生病的人数
     @GetMapping("/myIll")
     public Map<String, Object> myIll(){
         Map<String, Object> map=new HashMap<String, Object>();

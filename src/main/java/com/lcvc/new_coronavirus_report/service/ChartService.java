@@ -67,7 +67,7 @@ public class ChartService {
     }
 
     /**
-     * 查询最近几天的来自武汉的市外填报人数
+     * 查询最近几天的生病的填报人数
      * @param dayNumber
      * @return
      */

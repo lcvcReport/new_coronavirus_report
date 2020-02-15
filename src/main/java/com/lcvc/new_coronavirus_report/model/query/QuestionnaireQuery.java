@@ -14,6 +14,15 @@ public class QuestionnaireQuery extends Questionnaire {
     private Boolean studentQuery;//查询学生信息
     private Boolean teacherQuery;//查询教师信息
     private Boolean myIllQuery;//查询本人是否生病
+    private Boolean feverQuery;//查询是否发热
+
+    public Boolean getFeverQuery() {
+        return feverQuery;
+    }
+
+    public void setFeverQuery(Boolean feverQuery) {
+        this.feverQuery = feverQuery;
+    }
 
     public Date getQueryDate() {
         return queryDate;

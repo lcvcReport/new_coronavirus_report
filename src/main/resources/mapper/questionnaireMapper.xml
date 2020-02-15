@@ -12,12 +12,12 @@
       identityCard,tel,workType,practice,practiceWorkStatus,comefromHuBei,comefromWuHan,arriveHuBei,arriveWuHan,stayInHubei,epidemicArea,
       comeFromGZHH,arriveGZHH,province,
       addressInLiuZhou,arriveLiuZhou,leaveLiuZhou,leaveHubei,leaveHubeiWay,leaveTogetherPersonName,
-      manageMethods,touchHuBeiPerson,touchHuBeiPersonName,touchHuBeiTime,touchHuBeiDescription,schoolClass,myHealth,myfamilyHealth,confirmIll,intro,ip,createTime)
+      manageMethods,touchHuBeiPerson,touchHuBeiPersonName,touchHuBeiTime,touchHuBeiDescription,schoolClass,myHealth,temperature,myfamilyHealth,confirmIll,intro,ip,createTime)
       values(null,#{identity},#{teacherNumber},#{studentNumber},#{sex},#{name},#{registeredPlace},
       #{identityCard},#{tel},#{workType},#{practice},#{practiceWorkStatus},#{comefromHuBei},#{comefromWuHan},#{arriveHuBei},#{arriveWuHan},#{stayInHubei},#{epidemicArea},
       #{comeFromGZHH},#{arriveGZHH},#{province},
       #{addressInLiuZhou},#{arriveLiuZhou},#{leaveLiuZhou},#{leaveHubei},#{leaveHubeiWay},#{leaveTogetherPersonName},
-      #{manageMethods},#{touchHuBeiPerson},#{touchHuBeiPersonName},#{touchHuBeiTime},#{touchHuBeiDescription},#{schoolClass},#{myHealth},#{myfamilyHealth},#{confirmIll},#{intro},#{ip},now())
+      #{manageMethods},#{touchHuBeiPerson},#{touchHuBeiPersonName},#{touchHuBeiTime},#{touchHuBeiDescription},#{schoolClass},#{myHealth},#{temperature},#{myfamilyHealth},#{confirmIll},#{intro},#{ip},now())
 </insert>
 
 
@@ -53,6 +53,10 @@
                 </if>
                 <if test="objectQuery.myIllQuery!=null">
                     and myHealth!='健康'
+                </if>
+                <!--如果要查询发热病人 -->
+                <if test="objectQuery.feverQuery!=null and objectQuery.feverQuery=true">
+                    and locate('发热',myHealth)>0
                 </if>
                 <if test="objectQuery.practiceWorkStatus!=null and objectQuery.practiceWorkStatus.length()>0">
                     and practiceWorkStatus=#{objectQuery.practiceWorkStatus}

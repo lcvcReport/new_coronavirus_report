@@ -31,8 +31,7 @@ public class Questionnaire {
     private String touchHuBeiPersonName;//接触过疫区人员的姓名，可以写多个。只有在touchHuBeiPerson为true的前提下才填写
     private Boolean confirmIll;//是否为疑似病例或确诊病例。两个选项：医院已确诊；否，身体健康。true表示有，false表示没有。
 
-    //检测是否发热
-    private Boolean fever;//是否发热，20200214表格增加字段
+    //发热的话必须要填
     private String temperature;//体温，如果发热的话必须要填
 
     //如果密切接触过疫区人员要填的字段，如果发热的话必须要填
@@ -385,5 +384,14 @@ public class Questionnaire {
 
     public void setPracticeWorkStatus(String practiceWorkStatus) {
         this.practiceWorkStatus = practiceWorkStatus;
+    }
+
+
+    public String getTemperature() {
+        return temperature;
+    }
+
+    public void setTemperature(String temperature) {
+        this.temperature = temperature;
     }
 }

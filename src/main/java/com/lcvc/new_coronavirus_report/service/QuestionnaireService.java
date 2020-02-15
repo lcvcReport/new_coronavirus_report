@@ -116,6 +116,14 @@ public class QuestionnaireService {
         //常规字段
         if(StringUtils.isEmpty(questionnaire.getMyHealth())){
             throw new MyWebException("提交失败：必须填写本人健康状况");
+        }else{
+            if(questionnaire.getMyHealth().contains("发热")){//如果有发热关键词
+                if(StringUtils.isEmpty(questionnaire.getMyHealth())){//
+                    throw new MyWebException("提交失败：发热人员必须填写体温");
+                }
+            }else{//如果没有发热
+                questionnaire.setTemperature(null);//清空该字段
+            }
         }
         if(StringUtils.isEmpty(questionnaire.getMyfamilyHealth())){
             throw new MyWebException("提交失败：必须填写本人家庭成员的健康状况");

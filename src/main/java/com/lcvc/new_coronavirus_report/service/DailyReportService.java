@@ -70,7 +70,7 @@ public class DailyReportService {
         //来自湖北省（除武汉市外）的市外人员人数
         questionnairequery=new QuestionnaireQuery();
         questionnairequery.setQueryDate(currentDay);//查找今天的表内容
-        questionnairequery.setComefromWuHan(true);//查询来自湖北的记录
+        questionnairequery.setComefromHuBei(true);//查询来自湖北的记录
         dailyReportCurrentDay.setComefromHuBeiNumber(questionnaireDao.querySize(questionnairequery));
         //我市到过武汉市的人员人数
         questionnairequery=new QuestionnaireQuery();

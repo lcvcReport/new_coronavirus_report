@@ -120,6 +120,20 @@ public class QuestionnaireQueryController {
         return map;
     }
 
+    //发热记录
+    @GetMapping("/fever")
+    public Map<String, Object> fever(Integer page, Integer limit){
+        Map<String, Object> map=new HashMap<String, Object>();
+        map.put(Constant.JSON_CODE, JsonCode.SUCCESS.getValue());
+        QuestionnaireQuery questionnairequery=new QuestionnaireQuery();
+        questionnairequery.setQueryDate(new Date());//查找今天的表内容
+        questionnairequery.setFeverQuery(true);//查询发热病人的记录
+        PageObject pageObject =questionnaireService.query(page,limit,questionnairequery);
+        map.put(Constant.JSON_TOTAL,pageObject.getTotalRecords());
+        map.put(Constant.JSON_DATA,pageObject.getList());
+        return map;
+    }
+
     //来自广东、浙江、河南、湖南省的市外人员排查日报表
     @GetMapping("/comeFromGZHH")
     public Map<String, Object> comeFromGZHH(Integer page, Integer limit){

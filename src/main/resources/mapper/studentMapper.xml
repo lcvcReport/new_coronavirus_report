@@ -36,13 +36,13 @@
         </if>
     </sql>
 
-    <select id="readAll" resultType="Teacher">
+    <select id="readAll" resultType="Student">
         select * from student
         <include refid="queryWhere"></include>
         order by studentNumber asc
     </select>
 
-    <select id="query" resultType="Questionnaire">
+    <select id="query" resultType="Student">
         select * from student
         <include refid="queryWhere"></include>
         order by studentNumber asc limit #{offset},#{length}

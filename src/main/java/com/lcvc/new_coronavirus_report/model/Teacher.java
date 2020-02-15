@@ -6,6 +6,7 @@ public class Teacher {
     private String sex;// 性别
     private String identityCard;//身份证
     private String tel;//电话号码
+    private String department;//所在部门，如信息工程系
 
     public String getTeacherNumber() {
         return teacherNumber;
@@ -45,5 +46,13 @@ public class Teacher {
 
     public void setTel(String tel) {
         this.tel = tel;
+    }
+
+    public String getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
     }
 }
