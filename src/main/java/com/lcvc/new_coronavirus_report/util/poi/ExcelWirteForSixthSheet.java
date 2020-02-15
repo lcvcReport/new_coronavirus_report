@@ -115,14 +115,14 @@ public class ExcelWirteForSixthSheet {
 
             XSSFCell leaveLiuZhou = listRow.createCell(6);
             if (list.get(i).getLeaveLiuZhou()!=null){
-                SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd");
                 leaveLiuZhou.setCellValue(formatter.format(list.get(i).getLeaveLiuZhou()));
             }
             leaveLiuZhou.setCellStyle(titleStyle);
 
             XSSFCell arriveLiuZhou = listRow.createCell(7);
             if (list.get(i).getArriveLiuZhou()!=null){
-                SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd");
                 arriveLiuZhou.setCellValue(formatter.format(list.get(i).getArriveLiuZhou()));
             }
             arriveLiuZhou.setCellStyle(titleStyle);

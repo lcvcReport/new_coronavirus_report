@@ -25,16 +25,16 @@ public class ExcelWirteForComeFromGZHHSheet {
         String header[]={"来自广东、浙江、河南、湖南省的市外人员排查日报表（六）"};
         String title[]={"序号",
                 "姓名",
-                "身份证号",
+                "身份证号码",
                 "电话号码",
                 "电话排查内容",
                 "入户排查内容",
-                "管控措施（如为居家隔离，请询问是否有社区每日随访、是否有外出买菜、下楼活动等情况）",
+                "管控措施",
                 "备注"};
         String title1[]={"省份",
                 "离开时间",
                 "目前在柳居住地",
-                "离开湖北省的时是否有咳嗽、胸闷、发烧等不适症状",
+                "是否有咳嗽、胸闷、发烧等不适症状",
                 "省份",
                 "离开时间",
                 "到柳时间",
@@ -161,7 +161,7 @@ public class ExcelWirteForComeFromGZHHSheet {
             if (i==4){
                 titleCell.setCellValue(title[4]);
             }
-            if (i==5){
+            if (i==8){
                 titleCell.setCellValue(title[5]);
             }
             //设置背景色
@@ -207,7 +207,7 @@ public class ExcelWirteForComeFromGZHHSheet {
 
             XSSFCell telLeaveTime= listRow.createCell(5);
             if (list.get(i).getLeaveHubei()!=null){
-                SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd");
                 telLeaveTime.setCellValue(formatter.format(list.get(i).getLeaveHubei()));
             }
             telLeaveTime.setCellStyle(titleStyle);
@@ -226,7 +226,7 @@ public class ExcelWirteForComeFromGZHHSheet {
 
             XSSFCell intoLeaveTime= listRow.createCell(9);
             if (list.get(i).getLeaveHubei()!=null){
-                SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd");
                 intoLeaveTime.setCellValue(formatter.format(list.get(i).getLeaveHubei()));
             }
             intoLeaveTime.setCellStyle(titleStyle);
@@ -234,7 +234,7 @@ public class ExcelWirteForComeFromGZHHSheet {
 
             XSSFCell intoArriveLiuZhou= listRow.createCell(10);
             if (list.get(i).getArriveLiuZhou()!=null){
-                SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd");
                 intoArriveLiuZhou.setCellValue(formatter.format(list.get(i).getArriveLiuZhou()));
             }
             intoArriveLiuZhou.setCellStyle(titleStyle);

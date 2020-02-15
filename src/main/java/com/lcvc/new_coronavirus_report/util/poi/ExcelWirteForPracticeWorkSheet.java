@@ -16,19 +16,18 @@ import java.util.List;
 public class ExcelWirteForPracticeWorkSheet {
 
     /**
-     * 1.7
-     * 1月16日以后密切接触过来自或到达过湖北疫区人员情况表
      *
+     *实习学生当前在单位上岗情况表
      * @param book 传递进来的工作部对象
      * @param list 要遍历的数据集合
      * @return
      */
     public static XSSFSheet getShee(XSSFWorkbook book, List<Questionnaire> list) {
-        String header[] = {"  实习生当前在公司上岗情况表"};
+        String header[] = {"  实习学生当前在单位上岗情况表"};
          String title[] = {"学生姓名", "性别", "专业班级", "电话号码", "是否实习", "当前实习情况"};
 
         // 创建一个工作表
-        XSSFSheet sheet = book.createSheet("实习生当前在公司上岗情况表");
+        XSSFSheet sheet = book.createSheet("实习学生当前在单位上岗情况表");
 
         // 设置单元格表单头部样式
         XSSFCellStyle headerStyle = book.createCellStyle();

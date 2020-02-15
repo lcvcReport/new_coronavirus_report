@@ -23,8 +23,8 @@ public class ExcelWirteForFourthSheet {
      */
     public static XSSFSheet getShee(XSSFWorkbook book,List<Questionnaire> list) {
         String header[]={"我市到过武汉市的人员排查日报表（三）"};
-        String title[]={"序号","姓名","身份证号","联系电话","户口住址","电话排查内容","入户排查内容","管控措施（如为居家隔离，请询问是否有社区每日随访、是否有外出买菜、下楼活动等情况）","备注"};
-        String title1[]={"离开湖北省的时间","目前在柳居住地","是否有咳嗽、胸闷、发烧等不适症状","离开湖北省的时间","到柳时间","目前在柳居住地","是否有咳嗽、胸闷、发烧等不适症状","车次/航班/汽车/自驾等回柳方式","同行人姓名"};
+        String title[]={"序号","姓名","身份证号码","电话号码","户口住址","电话排查内容","入户排查内容","管控措施","备注"};
+        String title1[]={"离开武汉市的时间","目前在柳居住地","是否有咳嗽、胸闷、发烧等不适症状","离开武汉市的时间","到柳时间","目前在柳居住地","是否有咳嗽、胸闷、发烧等不适症状","车次/航班/汽车/自驾等回柳方式","同行人姓名"};
 
         // 创建一个工作表
         XSSFSheet sheet = book.createSheet("表四");
@@ -173,7 +173,7 @@ public class ExcelWirteForFourthSheet {
             //电话排查内容
             XSSFCell telLeaveHubei= listRow.createCell(5);
             if (list.get(i).getLeaveHubei()!=null){
-                SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd");
                 telLeaveHubei.setCellValue(formatter.format(list.get(i).getLeaveHubei()));
             }
             telLeaveHubei.setCellStyle(titleStyle);
@@ -188,7 +188,7 @@ public class ExcelWirteForFourthSheet {
             //入户排查内容
             XSSFCell intoLeaveHubei= listRow.createCell(8);
             if (list.get(i).getLeaveHubei()!=null){
-                SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd");
                 intoLeaveHubei.setCellValue(formatter.format(list.get(i).getLeaveHubei()));
             }
             intoLeaveHubei.setCellStyle(titleStyle);
@@ -196,7 +196,7 @@ public class ExcelWirteForFourthSheet {
             XSSFCell intoArriveLiuZhou= listRow.createCell(9);
             intoArriveLiuZhou.setCellValue(list.get(i).getArriveLiuZhou());
             if (list.get(i).getArriveLiuZhou()!=null){
-                SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd");
                 intoArriveLiuZhou.setCellValue(formatter.format(list.get(i).getArriveLiuZhou()));
             }
             intoArriveLiuZhou.setCellStyle(titleStyle);

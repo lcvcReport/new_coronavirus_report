@@ -31,11 +31,15 @@ public class Questionnaire {
     private String touchHuBeiPersonName;//接触过疫区人员的姓名，可以写多个。只有在touchHuBeiPerson为true的前提下才填写
     private Boolean confirmIll;//是否为疑似病例或确诊病例。两个选项：医院已确诊；否，身体健康。true表示有，false表示没有。
 
-    //如果密切接触过疫区人员要填的字段
+    //检测是否发热
+    private Boolean fever;//是否发热，20200214表格增加字段
+    private String temperature;//体温，如果发热的话必须要填
+
+    //如果密切接触过疫区人员要填的字段，如果发热的话必须要填
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date touchHuBeiTime;//密切接触的时间。接触过疫区人员，都要填；否则为空
     private String touchHuBeiDescription;//密切接触过程的具体描述。接触过疫区人员，都要填；否则为空
-    private String schoolClass;//年级班级（专业）。接触过疫区人员，都要填；否则为空。取消表单该字段，
+    private String schoolClass;//年级班级（专业）。接触过疫区人员，都要填；否则为空。取消表单该字段，从数据库获取
 
     //处理广东、浙江、河南、湖南省等相关信息
     private Boolean comeFromGZHH;//是否来自广东、浙江、河南、湖南省。
@@ -49,6 +53,10 @@ public class Questionnaire {
     private Boolean arriveHuBei;//1月16日后，是否去过湖北(不包括武汉市)。true表示是，false表示不是
     private Boolean arriveWuHan;//1月16日后，是否到过武汉。true表示是，false表示不是
     private Boolean stayInHubei;//现在是否仍在湖北出差、休假、旅游、探亲等短时停留。必须是到达过武汉的（arriveWuHan）人才进一步填
+
+
+
+
     private String epidemicArea;//疫区居住地。只要去过湖北或武汉，或是来自湖北或武汉,接触过疫区人员，都要填；否则为空
     private String addressInLiuZhou;//柳州居住地。只要去过湖北或武汉，或是来自湖北或武汉，接触过疫区人员，都要填；否则为空
     @JsonFormat(pattern = "yyyy-MM-dd")
