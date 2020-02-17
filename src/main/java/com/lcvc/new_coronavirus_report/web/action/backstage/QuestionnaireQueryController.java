@@ -99,7 +99,7 @@ public class QuestionnaireQueryController {
         map.put(Constant.JSON_CODE, JsonCode.SUCCESS.getValue());
         QuestionnaireQuery questionnairequery=new QuestionnaireQuery();
         questionnairequery.setQueryDate(new Date());//查找今天的表内容
-        questionnairequery.setStayInHubei(true);//查询当前依旧停留在湖北的
+        questionnairequery.setStayInHubei(true);//查询当前依旧停留在湖北（含武汉市）、广东、浙江、河南、湖南的
         PageObject pageObject =questionnaireService.query(page,limit,questionnairequery);
         map.put(Constant.JSON_TOTAL,pageObject.getTotalRecords());
         map.put(Constant.JSON_DATA,pageObject.getList());

@@ -13,6 +13,7 @@ public class DailyReport {
     private Integer arriveWuHanNumber;//我市到过湖北省（除武汉市外）的人员人数
     private Integer touchHuBeiPersonNumber;//密切接触者过疫区人员的人数（不是指疫区人员人数）
     private Integer stayInHubeiNumber;//我市现在仍在湖北出差、休假、旅游、探亲等短时停留人员的人数
+    private Integer feverNumber;//发热的人数
     private Date reportDate;//该报告的当天日期。（记录的当天数据）
 
     public Integer getId() {
@@ -77,5 +78,13 @@ public class DailyReport {
 
     public void setReportDate(Date reportDate) {
         this.reportDate = reportDate;
+    }
+
+    public Integer getFeverNumber() {
+        return feverNumber;
+    }
+
+    public void setFeverNumber(Integer feverNumber) {
+        this.feverNumber = feverNumber;
     }
 }

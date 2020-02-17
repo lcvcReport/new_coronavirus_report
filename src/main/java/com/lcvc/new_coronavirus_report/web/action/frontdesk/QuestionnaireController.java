@@ -4,15 +4,14 @@ import com.lcvc.new_coronavirus_report.model.Questionnaire;
 import com.lcvc.new_coronavirus_report.model.base.Constant;
 import com.lcvc.new_coronavirus_report.model.base.JsonCode;
 import com.lcvc.new_coronavirus_report.service.QuestionnaireService;
+import com.lcvc.new_coronavirus_report.util.date.MyDateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,12 +23,22 @@ public class QuestionnaireController {
     @Autowired
     private QuestionnaireService questionnaireService;
 
+
     //提交调查表
     @PostMapping
     public Map<String, Object> doPostQuestionnaire(@RequestBody Questionnaire questionnaire, HttpServletRequest request){
         Map<String, Object> map=new HashMap<String, Object>();
         map.put(Constant.JSON_CODE, JsonCode.SUCCESS.getValue());
         questionnaireService.save(questionnaire,this.getIpAddr(request));
+        return map;
+    }
+
+    //获取昨天的调查表记录
+    @GetMapping("/yesterday")
+    public Map<String, Object> getQuestionnaire(String identity,String teacherOrStudentNumber){
+        Map<String, Object> map=new HashMap<String, Object>();
+        map.put(Constant.JSON_CODE, JsonCode.SUCCESS.getValue());
+        map.put(Constant.JSON_DATA,questionnaireService.getQuestionnaire(identity,teacherOrStudentNumber, MyDateUtil.getDateBefore(new Date(),1)));//获取昨天的填报记录
         return map;
     }
 

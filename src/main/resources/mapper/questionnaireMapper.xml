@@ -41,7 +41,7 @@
         <if test="objectQuery!=null">
             <where>
                 <if test="objectQuery.identity!=null and objectQuery.identity.length()>0">
-                    and identit=#{objectQuery.identity}
+                    and identity=#{objectQuery.identity}
                 </if>
                 <if test="objectQuery.schoolClass!=null and objectQuery.schoolClass.length()>0">
                     <!-- bind，重新定义一个变量，可用于模糊查询等，并且可以直接覆盖原变量 -->
@@ -55,7 +55,7 @@
                     and myHealth!='健康'
                 </if>
                 <!--如果要查询发热病人 -->
-                <if test="objectQuery.feverQuery!=null and objectQuery.feverQuery=true">
+                <if test="objectQuery.feverQuery!=null and objectQuery.feverQuery==true">
                     and locate('发热',myHealth)>0
                 </if>
                 <if test="objectQuery.practiceWorkStatus!=null and objectQuery.practiceWorkStatus.length()>0">
@@ -96,6 +96,12 @@
                 </if>
                 <if test="objectQuery.teacherQuery!=null and objectQuery.teacherQuery==true">
                     and ( teacherNumber!='' or teacherNumber!=null)
+                </if>
+                <if test="objectQuery.teacherNumber!=null and objectQuery.teacherNumber.length()>0">
+                   and teacherNumber=#{objectQuery.teacherNumber}
+                </if>
+                <if test="objectQuery.studentNumber!=null and objectQuery.studentNumber.length()>0">
+                    and studentNumber=#{objectQuery.studentNumber}
                 </if>
                 <if test="objectQuery.schoolClass!=null and objectQuery.schoolClass.length()>0">
                     <!-- bind，重新定义一个变量，可用于模糊查询等，并且可以直接覆盖原变量 -->

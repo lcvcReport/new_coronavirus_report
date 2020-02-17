@@ -193,6 +193,56 @@ public class ChartService {
     }
 
     /**
+     * 查询最近几天的去过广东、浙江、河南、湖南省的市内人员填报人数
+     * @param dayNumber
+     * @return
+     */
+    public BaseDateArrayChart getArriveGZHHRecently(Integer dayNumber){
+        BaseDateArrayChart barData=new BaseDateArrayChart();
+        List<String> dates=new ArrayList<String>();//记录日期
+        List<Integer> numbers=new ArrayList<Integer>();//记录相应人数
+        Date now=new Date();//获取当前时间
+        while(dayNumber>=1){//最开始的日期算起，按时间升序
+            Date currentDate= MyDateUtil.getDateBefore(now,dayNumber-1);//获取dayNumber天前日期
+            SimpleDateFormat format= new SimpleDateFormat("MM-dd");
+            dates.add(format.format(currentDate));//将日期记录到X轴
+            QuestionnaireQuery questionnairequery=new QuestionnaireQuery();
+            questionnairequery.setQueryDate(currentDate);//查找当天的表内容
+            questionnairequery.setArriveGZHH(true);//去过广东、浙江、河南、湖南省
+            numbers.add(questionnaireDao.querySize(questionnairequery));
+            dayNumber--;
+        }
+        barData.setLabels(dates.toArray(new String[dates.size()]));
+        barData.setValues(numbers.toArray(new Integer[numbers.size()]));
+        return barData;
+    }
+
+    /**
+     * 查询最近几天的从广东、浙江、河南、湖南省回来的市外填报人数
+     * @param dayNumber
+     * @return
+     */
+    public BaseDateArrayChart getFromGZHHRecently(Integer dayNumber){
+        BaseDateArrayChart barData=new BaseDateArrayChart();
+        List<String> dates=new ArrayList<String>();//记录日期
+        List<Integer> numbers=new ArrayList<Integer>();//记录相应人数
+        Date now=new Date();//获取当前时间
+        while(dayNumber>=1){//最开始的日期算起，按时间升序
+            Date currentDate= MyDateUtil.getDateBefore(now,dayNumber-1);//获取dayNumber天前日期
+            SimpleDateFormat format= new SimpleDateFormat("MM-dd");
+            dates.add(format.format(currentDate));//将日期记录到X轴
+            QuestionnaireQuery questionnairequery=new QuestionnaireQuery();
+            questionnairequery.setQueryDate(currentDate);//查找当天的表内容
+            questionnairequery.setComeFromGZHH(true);//来自广东、浙江、河南、湖南省
+            numbers.add(questionnaireDao.querySize(questionnairequery));
+            dayNumber--;
+        }
+        barData.setLabels(dates.toArray(new String[dates.size()]));
+        barData.setValues(numbers.toArray(new Integer[numbers.size()]));
+        return barData;
+    }
+
+    /**
      * 查询近期仍停留在武汉人数
      * @param dayNumber
      * @return

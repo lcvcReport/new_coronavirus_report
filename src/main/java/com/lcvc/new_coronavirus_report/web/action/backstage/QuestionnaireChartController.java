@@ -82,12 +82,30 @@ public class QuestionnaireChartController {
         return map;
     }
 
-    //获取近几天停留在湖北的人数
+    //获取近几天停留在湖北（含武汉市）、广东、浙江、河南、湖南的的人数
     @GetMapping("/stayHuBeiRecently")
     public Map<String, Object> stayHuBeiRecently(){
         Map<String, Object> map=new HashMap<String, Object>();
         map.put(Constant.JSON_CODE, JsonCode.SUCCESS.getValue());
         map.put(Constant.JSON_DATA,chartService.getStayHubeiRecently(5));
+        return map;
+    }
+
+    //获取近几天去过、广东、浙江、河南、湖南的人数
+    @GetMapping("/comeFromGZHHRecently")
+    public Map<String, Object> comeFromGZHHRecently(){
+        Map<String, Object> map=new HashMap<String, Object>();
+        map.put(Constant.JSON_CODE, JsonCode.SUCCESS.getValue());
+        map.put(Constant.JSON_DATA,chartService.getFromGZHHRecently(5));
+        return map;
+    }
+
+    //获取近几天去过、广东、浙江、河南、湖南的人数
+    @GetMapping("/arriveGZHHRecently")
+    public Map<String, Object> arriveGZHHRecently(){
+        Map<String, Object> map=new HashMap<String, Object>();
+        map.put(Constant.JSON_CODE, JsonCode.SUCCESS.getValue());
+        map.put(Constant.JSON_DATA,chartService.getArriveGZHHRecently(5));
         return map;
     }
 

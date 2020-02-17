@@ -2,32 +2,33 @@ package com.lcvc.new_coronavirus_report.util.poi;
 
 
 import com.lcvc.new_coronavirus_report.model.Questionnaire;
-import org.apache.poi.ss.usermodel.BorderStyle;
-import org.apache.poi.ss.usermodel.HorizontalAlignment;
-import org.apache.poi.ss.usermodel.VerticalAlignment;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.*;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 
 @Service
-public class ExcelWirteForPracticeWorkSheet {
+public class ExcelWirteForStayHuBeiSheet {
 
     /**
+     * 1.6
+     * 1月16日后我市现在仍在湖北出差、休假、旅游、探亲等短时停留人员(五）
      *
-     *实习学生当前在单位上岗情况表
      * @param book 传递进来的工作部对象
      * @param list 要遍历的数据集合
      * @return
      */
     public static XSSFSheet getShee(XSSFWorkbook book, List<Questionnaire> list) {
-        String header[] = {"实习学生当前在单位上岗情况表"};
-         String title[] = {"学生姓名", "性别", "专业班级", "电话号码", "是否实习", "当前实习情况"};
+        String header[] = {"1月16日后我市现在仍在湖北出差、休假、旅游、探亲等短时停留人员(五）"};
+        String title[] = {"序号", "姓名", "身份证号码", "手机号码", "疫区居住地", "柳州居住地", "离柳时间", "回柳时间", "备注"};
+        String footer[]={"填报人：","审核人：","签发人："};
 
         // 创建一个工作表
-        XSSFSheet sheet = book.createSheet("实习学生当前在单位上岗情况表");
+        XSSFSheet sheet = book.createSheet("表六");
 
         // 设置单元格表单头部样式
         XSSFCellStyle headerStyle = book.createCellStyle();
@@ -55,7 +56,7 @@ public class ExcelWirteForPracticeWorkSheet {
         //设置行
         //header
         XSSFRow headerRow = sheet.createRow(0);
-        headerRow.setHeightInPoints(35);//设置行的高度是50个点
+        headerRow.setHeightInPoints(50);//设置行的高度是50个点
         //titie
         XSSFRow titleRow = sheet.createRow(1);
         titleRow.setHeightInPoints(30);//设置行的高度是50个点
@@ -64,6 +65,7 @@ public class ExcelWirteForPracticeWorkSheet {
         //跨行跨列
         //header行
         CellRangeAddress region = new CellRangeAddress(0, 0, 0, title.length - 1);
+
         sheet.addMergedRegion(region);
 
         //添加表头栏
@@ -87,39 +89,61 @@ public class ExcelWirteForPracticeWorkSheet {
         //list数据
         for (int i = 0; i < list.size(); i++) {
             XSSFRow listRow = sheet.createRow(i + 2);
+            XSSFCell id = listRow.createCell(0);
+            id.setCellValue(list.get(i).getId());
+            id.setCellStyle(titleStyle);
 
-            XSSFCell name = listRow.createCell(0);
+            XSSFCell name = listRow.createCell(1);
             name.setCellValue(list.get(i).getName());
             name.setCellStyle(titleStyle);
 
-            XSSFCell sex = listRow.createCell(1);
-            sex.setCellValue(list.get(i).getSex());
-            sex.setCellStyle(titleStyle);
-
-            XSSFCell schoolClass = listRow.createCell(2);
-            schoolClass.setCellValue(list.get(i).getSchoolClass());
-            schoolClass.setCellStyle(titleStyle);
+            XSSFCell identityCard = listRow.createCell(2);
+            identityCard.setCellValue(list.get(i).getIdentityCard());
+            identityCard.setCellStyle(titleStyle);
 
             XSSFCell tel = listRow.createCell(3);
             tel.setCellValue(list.get(i).getTel());
             tel.setCellStyle(titleStyle);
 
-            XSSFCell practice = listRow.createCell(4);
-            practice.setCellStyle(titleStyle);
-            if (list.get(i).getPractice()!=null){
-                if (list.get(i).getPractice()){
-                    practice.setCellValue("是");
-                }else{
-                    practice.setCellValue("否");
-                }
+            XSSFCell epidemicArea = listRow.createCell(4);
+            epidemicArea.setCellValue(list.get(i).getEpidemicArea());
+            epidemicArea.setCellStyle(titleStyle);
+
+            XSSFCell addressInLiuZhou = listRow.createCell(5);
+            addressInLiuZhou.setCellValue(list.get(i).getAddressInLiuZhou());
+            addressInLiuZhou.setCellStyle(titleStyle);
+
+            XSSFCell leaveLiuZhou = listRow.createCell(6);
+            if (list.get(i).getLeaveLiuZhou()!=null){
+                SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd");
+                leaveLiuZhou.setCellValue(formatter.format(list.get(i).getLeaveLiuZhou()));
             }
+            leaveLiuZhou.setCellStyle(titleStyle);
 
-            XSSFCell practiceWorkStatus = listRow.createCell(5);
-            practiceWorkStatus.setCellStyle(titleStyle);
-            practiceWorkStatus.setCellValue(list.get(i).getPracticeWorkStatus());
+            XSSFCell arriveLiuZhou = listRow.createCell(7);
+            if (list.get(i).getArriveLiuZhou()!=null){
+                SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd");
+                arriveLiuZhou.setCellValue(formatter.format(list.get(i).getArriveLiuZhou()));
+            }
+            arriveLiuZhou.setCellStyle(titleStyle);
 
+            XSSFCell intro = listRow.createCell(8);
+            intro.setCellValue(list.get(i).getIntro());
+            intro.setCellStyle(titleStyle);
         }
 
+        //footer
+        XSSFRow footerRow = sheet.createRow(list.size()+2);
+        footerRow.setHeightInPoints(30);//设置行的高度是50个点
+
+        XSSFCell footerCell0 = footerRow.createCell(0);
+        footerCell0.setCellValue(footer[0]);
+
+        XSSFCell footerCell1 = footerRow.createCell(4);
+        footerCell1.setCellValue(footer[1]);
+
+        XSSFCell footerCell8 = footerRow.createCell(8);
+        footerCell8.setCellValue(footer[2]);
 
         return sheet;
     }

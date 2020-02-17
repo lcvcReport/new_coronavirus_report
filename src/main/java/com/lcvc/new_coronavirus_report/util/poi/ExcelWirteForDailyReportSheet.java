@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 
 @Service
-public class ExcelWirteForFisrtSheet {
+public class ExcelWirteForDailyReportSheet {
 
     /**
      * 1.1重点人群排查管理日报表
@@ -249,11 +249,11 @@ public class ExcelWirteForFisrtSheet {
         stayInHubeiSum.setCellValue(list.getDailyReportToday().getStayInHubeiNumber());
         stayInHubeiSum.setCellStyle(listStyle);
         //发热人数
-        //list.getDailyReportToday().getFeverNumber() - list.getDailyReportInYesterday().getFeverNumber()
-        observePeopleDeIn.setCellValue("");
+        if(list.getDailyReportToday().getFeverNumber()!=null&&list.getDailyReportInYesterday().getFeverNumber()!=null){
+            observePeopleDeIn.setCellValue(list.getDailyReportToday().getFeverNumber() - list.getDailyReportInYesterday().getFeverNumber());
+            observePeoplesum.setCellValue(list.getDailyReportToday().getFeverNumber());
+        }
         observePeopleDeIn.setCellStyle(listStyle);
-        //list.getDailyReportToday().getFeverNumber()
-        observePeoplesum.setCellValue("");
         observePeoplesum.setCellStyle(listStyle);
         //备注
         intro.setCellValue("");

@@ -6,6 +6,7 @@ import com.lcvc.new_coronavirus_report.model.base.PageObject;
 import com.lcvc.new_coronavirus_report.model.exception.MyServiceException;
 import com.lcvc.new_coronavirus_report.model.exception.MyWebException;
 import com.lcvc.new_coronavirus_report.model.query.QuestionnaireQuery;
+import com.lcvc.new_coronavirus_report.util.date.MyDateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -15,6 +16,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -118,7 +120,7 @@ public class QuestionnaireService {
             throw new MyWebException("提交失败：必须填写本人健康状况");
         }else{
             if(questionnaire.getMyHealth().contains("发热")){//如果有发热关键词
-                if(StringUtils.isEmpty(questionnaire.getMyHealth())){//
+                if(StringUtils.isEmpty(questionnaire.getTemperature())){//
                     throw new MyWebException("提交失败：发热人员必须填写体温");
                 }
             }else{//如果没有发热
@@ -172,9 +174,9 @@ public class QuestionnaireService {
             }
         }
         //检查是去过湖北或武汉,或当前仍旧停留的
-        if(questionnaire.getArriveHuBei()||questionnaire.getArriveWuHan()){//如果去过武汉湖北，但可能还没回来，所以一些字段不做限制
+        if(questionnaire.getArriveHuBei()||questionnaire.getArriveWuHan()||questionnaire.getArriveGZHH()){//如果去过湖北（含武汉市）、广东、浙江、河南、湖南，但可能还没回来，所以一些字段不做限制
             if(questionnaire.getStayInHubei()==null){
-                throw new MyWebException("提交失败：必须填写是否当前还停留在该省");
+                throw new MyWebException("提交失败：必须填写当前是否还停留在湖北（含武汉市）、广东、浙江、河南、湖南出差、休假、旅游、探亲");
             }
             if(questionnaire.getStayInHubei()){//如果选择了停留
                 if(StringUtils.isEmpty(questionnaire.getEpidemicArea())){//选择停留的必须写
@@ -216,8 +218,8 @@ public class QuestionnaireService {
         }
 
 
-        //满足任何一个需要上报条件的（湖北来的人，去过湖北，去过广东、浙江、河南、湖南省，接触过疫区）
-        if(questionnaire.getComefromHuBei()||questionnaire.getComefromWuHan()||questionnaire.getArriveHuBei()||questionnaire.getArriveWuHan()||questionnaire.getTouchHuBeiPerson()||questionnaire.getComeFromGZHH()||questionnaire.getArriveGZHH()){//如果去过武汉湖北
+        //满足任何一个需要上报条件的（湖北来的人，去过湖北，去过广东、浙江、河南、湖南省，接触过疫区，发热）
+        if(questionnaire.getMyHealth().contains("发热")||questionnaire.getComefromHuBei()||questionnaire.getComefromWuHan()||questionnaire.getArriveHuBei()||questionnaire.getArriveWuHan()||questionnaire.getTouchHuBeiPerson()||questionnaire.getComeFromGZHH()||questionnaire.getArriveGZHH()){//如果去过武汉湖北
             if(StringUtils.isEmpty(questionnaire.getAddressInLiuZhou())){//柳州居住地
                 throw new MyWebException("提交失败：必须填写在柳州的居住地");
             }
@@ -279,6 +281,34 @@ public class QuestionnaireService {
      */
     public Integer querySize(QuestionnaireQuery questionnairequery){
         return questionnaireDao.querySize(questionnairequery);
+    }
+
+    /**
+     * 获取某天的填报记录
+     * @param identity 教师还是学生身份
+     * @param teacherOrStudentNumber 传入教工号或学号
+     * @param date 指定查询日期
+     * @return null表示没有昨天的填报记录
+     */
+    public Questionnaire getQuestionnaire(String identity,String teacherOrStudentNumber,Date date){
+        Questionnaire questionnaire=null;//获取最终返回的调查表记录
+        QuestionnaireQuery questionnairequery=new QuestionnaireQuery();
+        questionnairequery.setQueryDate(date);//查找当天的表内容
+        questionnairequery.setIdentity(identity);//设置填表人身份
+        if(questionnairequery.getIdentity().equals("teacher")){
+            questionnairequery.setTeacherNumber(teacherOrStudentNumber);
+        }else if(questionnairequery.getIdentity().equals("student")){
+            questionnairequery.setStudentNumber(teacherOrStudentNumber);
+        }else{
+            throw new MyWebException("提交失败：请先选择填表人身份");
+        }
+        List<Questionnaire> list=questionnaireDao.readAll(questionnairequery);//获取查询记录，正常的话只有一条
+        if(list.size()==1){
+            questionnaire=list.get(0);//获取昨天的投票记录
+        }else  if(list.size()>1){//如果有2条及以上，说明数据库异常
+            throw new MyServiceException("异常：系统检测到您的数据库出现异常，请联系系统管理员");
+        }
+        return questionnaire;
     }
 
 

@@ -8,8 +8,8 @@
     </select>
 
     <insert id="save"  useGeneratedKeys="true" keyProperty="id">
-      insert into daily_report(id,comefromWuHanNumber,comefromHuBeiNumber,arriveHuBeiNumber,arriveWuHanNumber,touchHuBeiPersonNumber,stayInHubeiNumber,reportDate)
-      values(null,#{comefromWuHanNumber},#{comefromHuBeiNumber},#{arriveHuBeiNumber},#{arriveWuHanNumber},#{touchHuBeiPersonNumber},#{stayInHubeiNumber},#{reportDate})
+      insert into daily_report(id,comefromWuHanNumber,comefromHuBeiNumber,arriveHuBeiNumber,arriveWuHanNumber,touchHuBeiPersonNumber,stayInHubeiNumber,feverNumber,reportDate)
+      values(null,#{comefromWuHanNumber},#{comefromHuBeiNumber},#{arriveHuBeiNumber},#{arriveWuHanNumber},#{touchHuBeiPersonNumber},#{stayInHubeiNumber},#{feverNumber},#{reportDate})
 </insert>
 
     <delete id="deleteObjects" >

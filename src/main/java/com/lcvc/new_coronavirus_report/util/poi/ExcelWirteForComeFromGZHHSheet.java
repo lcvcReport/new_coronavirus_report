@@ -34,11 +34,13 @@ public class ExcelWirteForComeFromGZHHSheet {
         String title1[]={"省份",
                 "离开时间",
                 "目前在柳居住地",
+                "是否发烧",
                 "是否有咳嗽、胸闷、发烧等不适症状",
                 "省份",
                 "离开时间",
                 "到柳时间",
                 "目前在柳居住地",
+                "是否发烧",
                 "是否有咳嗽、胸闷、发烧等不适症状",
                 "车次/航班/汽车/自驾等回柳方式",
                 "同行人姓名"};
@@ -109,9 +111,10 @@ public class ExcelWirteForComeFromGZHHSheet {
         XSSFRow titleRow1 = sheet.createRow(2);
         titleRow1.setHeightInPoints(35);//设置行的高度是50个点
 
+
         //跨行跨列
         //header行
-        CellRangeAddress region = new CellRangeAddress(0, 0, 0, 16);
+        CellRangeAddress region = new CellRangeAddress(0, 0, 0, 17);
         //列
         CellRangeAddress region0 = new CellRangeAddress(1, 2, 0, 0);
         CellRangeAddress region1 = new CellRangeAddress(1, 2, 1, 1);
@@ -119,13 +122,13 @@ public class ExcelWirteForComeFromGZHHSheet {
         CellRangeAddress region3 = new CellRangeAddress(1, 2, 3, 3);
 
         //电话排查
-        CellRangeAddress region5 = new CellRangeAddress(1, 1, 4, 7);
+        CellRangeAddress region5 = new CellRangeAddress(1, 1, 4, 8);
         //户口排查
-        CellRangeAddress region6 = new CellRangeAddress(1, 1, 8, 14);
+        CellRangeAddress region6 = new CellRangeAddress(1, 1, 9, 16);
         //管控
-        CellRangeAddress region7 = new CellRangeAddress(1, 2, 15, 15);
+        CellRangeAddress region7 = new CellRangeAddress(1, 2, 17, 17);
         //备注
-        CellRangeAddress region8 = new CellRangeAddress(1, 2, 16, 16);
+        CellRangeAddress region8 = new CellRangeAddress(1, 2, 18, 18);
 
         sheet.addMergedRegion(region);
         sheet.addMergedRegion(region0);
@@ -138,7 +141,7 @@ public class ExcelWirteForComeFromGZHHSheet {
         sheet.addMergedRegion(region8);
 
         //添加表头栏
-        for (int i = 0; i <16 ; i++) {
+        for (int i = 0; i <19 ; i++) {
             XSSFCell headerCell= headerRow.createCell(i);
             sheet.setColumnWidth(i, 15 * 256);//设置第i列的宽度是31个字符宽度
             headerCell.setCellStyle(headerStyle);
@@ -148,7 +151,7 @@ public class ExcelWirteForComeFromGZHHSheet {
         }
 
         int j=0;
-        for (int i = 0; i <17 ; i++) {
+        for (int i = 0; i <19 ; i++) {
             XSSFCell titleCell= titleRow.createCell(i);
             XSSFCell titleCell1= titleRow1.createCell(i);
             sheet.setColumnWidth(i, 15 * 256);//设置第i列的宽度是31个字符宽度
@@ -161,21 +164,21 @@ public class ExcelWirteForComeFromGZHHSheet {
             if (i==4){
                 titleCell.setCellValue(title[4]);
             }
-            if (i==8){
+            if (i==9){
                 titleCell.setCellValue(title[5]);
             }
             //设置背景色
-            if (i==4||i==5||i==8||i==9){
-                titleCell1.setCellStyle(bgcolorStyle);
-            }
-            if (i>=4&&i<=14&&j<title1.length){
+//            if (i==4||i==5||i==8||i==9){
+//                titleCell1.setCellStyle(bgcolorStyle);
+//            }
+            if (i>=4&&i<=16&&j<title1.length){
                 titleCell1.setCellValue(title1[j]);
                 j++;
             }
-            if (i==15){
+            if (i==17){
                 titleCell.setCellValue(title[6]);
             }
-            if (i==16)titleCell.setCellValue(title[7]);
+            if (i==18)titleCell.setCellValue(title[7]);
         }
 
         //list数据
@@ -204,7 +207,6 @@ public class ExcelWirteForComeFromGZHHSheet {
             telShengfen.setCellStyle(titleStyle);
             telShengfen.setCellValue(list.get(i).getProvince());
 
-
             XSSFCell telLeaveTime= listRow.createCell(5);
             if (list.get(i).getLeaveHubei()!=null){
                 SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd");
@@ -215,16 +217,26 @@ public class ExcelWirteForComeFromGZHHSheet {
             XSSFCell telAddressInLiuZhou= listRow.createCell(6);
             telAddressInLiuZhou.setCellValue(list.get(i).getAddressInLiuZhou());
             telAddressInLiuZhou.setCellStyle(titleStyle);
-
+            //是否发烧
             XSSFCell telMyHealth= listRow.createCell(7);
-            telMyHealth.setCellValue(list.get(i).getMyHealth());
             telMyHealth.setCellStyle(titleStyle);
+            if(list.get(i).getMyHealth()!=null){
+                if(list.get(i).getMyHealth().contains("发热")){
+                    telMyHealth.setCellValue("是");
+                }else{
+                    telMyHealth.setCellValue("否");
+                }
+            }
+
+            XSSFCell telMyHealth1= listRow.createCell(8);
+            telMyHealth1.setCellValue(list.get(i).getMyHealth());
+            telMyHealth1.setCellStyle(titleStyle);
             //入户排查内容
-            XSSFCell intoShengfen= listRow.createCell(8);
+            XSSFCell intoShengfen= listRow.createCell(9);
             intoShengfen.setCellStyle(titleStyle);
             intoShengfen.setCellValue(list.get(i).getProvince());
 
-            XSSFCell intoLeaveTime= listRow.createCell(9);
+            XSSFCell intoLeaveTime= listRow.createCell(10);
             if (list.get(i).getLeaveHubei()!=null){
                 SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd");
                 intoLeaveTime.setCellValue(formatter.format(list.get(i).getLeaveHubei()));
@@ -232,7 +244,7 @@ public class ExcelWirteForComeFromGZHHSheet {
             intoLeaveTime.setCellStyle(titleStyle);
 
 
-            XSSFCell intoArriveLiuZhou= listRow.createCell(10);
+            XSSFCell intoArriveLiuZhou= listRow.createCell(11);
             if (list.get(i).getArriveLiuZhou()!=null){
                 SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd");
                 intoArriveLiuZhou.setCellValue(formatter.format(list.get(i).getArriveLiuZhou()));
@@ -240,28 +252,40 @@ public class ExcelWirteForComeFromGZHHSheet {
             intoArriveLiuZhou.setCellStyle(titleStyle);
 
 
-            XSSFCell intoAddressInLiuZhou= listRow.createCell(11);
+            XSSFCell intoAddressInLiuZhou= listRow.createCell(12);
             intoAddressInLiuZhou.setCellValue(list.get(i).getAddressInLiuZhou());
             intoAddressInLiuZhou.setCellStyle(titleStyle);
 
-            XSSFCell intoMyHealth= listRow.createCell(12);
+            //是否发烧
+            XSSFCell intoMyHealth= listRow.createCell(13);
             intoMyHealth.setCellValue(list.get(i).getMyHealth());
             intoMyHealth.setCellStyle(titleStyle);
+            if(list.get(i).getMyHealth()!=null){
+                if(list.get(i).getMyHealth().contains("发热")){
+                    intoMyHealth.setCellValue("是");
+                }else{
+                    intoMyHealth.setCellValue("否");
+                }
+            }
 
-            XSSFCell intoLeaveHubeiWay= listRow.createCell(13);
+            XSSFCell intoMyHealth1= listRow.createCell(14);
+            intoMyHealth1.setCellValue(list.get(i).getMyHealth());
+            intoMyHealth1.setCellStyle(titleStyle);
+
+            XSSFCell intoLeaveHubeiWay= listRow.createCell(15);
             intoLeaveHubeiWay.setCellValue(list.get(i).getLeaveHubeiWay());
             intoLeaveHubeiWay.setCellStyle(titleStyle);
 
-            XSSFCell intoLeaveTogetherPersonName= listRow.createCell(14);
+            XSSFCell intoLeaveTogetherPersonName= listRow.createCell(16);
             intoLeaveTogetherPersonName.setCellValue(list.get(i).getLeaveTogetherPersonName());
             intoLeaveTogetherPersonName.setCellStyle(titleStyle);
 
             //管控措施  备注
-            XSSFCell manageMethods= listRow.createCell(15);
+            XSSFCell manageMethods= listRow.createCell(17);
             manageMethods.setCellValue(list.get(i).getManageMethods());
             manageMethods.setCellStyle(titleStyle);
 
-            XSSFCell intro= listRow.createCell(16);
+            XSSFCell intro= listRow.createCell(18);
             intro.setCellValue(list.get(i).getIntro());
             intro.setCellStyle(titleStyle);
         }

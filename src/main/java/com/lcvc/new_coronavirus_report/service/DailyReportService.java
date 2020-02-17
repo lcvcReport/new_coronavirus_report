@@ -4,6 +4,7 @@ import com.lcvc.new_coronavirus_report.dao.DailyReportDao;
 import com.lcvc.new_coronavirus_report.dao.QuestionnaireDao;
 import com.lcvc.new_coronavirus_report.dao.TeacherDao;
 import com.lcvc.new_coronavirus_report.model.DailyReport;
+import com.lcvc.new_coronavirus_report.model.Questionnaire;
 import com.lcvc.new_coronavirus_report.model.Teacher;
 import com.lcvc.new_coronavirus_report.model.exception.MyServiceException;
 import com.lcvc.new_coronavirus_report.model.exception.MyWebException;
@@ -92,6 +93,11 @@ public class DailyReportService {
         questionnairequery.setQueryDate(currentDay);//查找今天的表内容
         questionnairequery.setStayInHubei(true);//查询当前依旧停留在湖北的
         dailyReportCurrentDay.setStayInHubeiNumber(questionnaireDao.querySize(questionnairequery));
+        //发热人群统计
+        questionnairequery=new QuestionnaireQuery();
+        questionnairequery.setQueryDate(currentDay);//查找今天的表内容
+        questionnairequery.setFeverQuery(true);//查询发热病人的记录
+        dailyReportCurrentDay.setFeverNumber(questionnaireDao.querySize(questionnairequery));
         return dailyReportCurrentDay;
     }
 

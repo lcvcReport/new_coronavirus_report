@@ -1,6 +1,5 @@
 package com.lcvc.new_coronavirus_report.util.poi;
 
-import com.lcvc.new_coronavirus_report.model.DailyReport;
 import com.lcvc.new_coronavirus_report.model.Questionnaire;
 import com.lcvc.new_coronavirus_report.model.form.DailyReportTable;
 import org.apache.poi.xssf.usermodel.*;
@@ -22,7 +21,7 @@ public class ExcelWirteForTable {
         // 创建工作簿
         XSSFWorkbook book = new XSSFWorkbook();
         // 创建工作表1
-        ExcelWirteForFisrtSheet.getShee(book,list);
+        ExcelWirteForDailyReportSheet.getShee(book,list);
         return book;
     }
 
@@ -34,7 +33,7 @@ public class ExcelWirteForTable {
         // 创建工作簿
         XSSFWorkbook book = new XSSFWorkbook();
         // 创建工作表1
-        ExcelWirteForSecondSheet.getShee(book,list);
+        ExcelWirteForComeFromWuHanSheet.getShee(book,list);
         return book;
     }
 
@@ -46,7 +45,7 @@ public class ExcelWirteForTable {
         // 创建工作簿
         XSSFWorkbook book = new XSSFWorkbook();
         // 创建工作表1
-        ExcelWirteForThirdSheet.getShee(book,list);
+        ExcelWirteForComeFromHuBeiSheet.getShee(book,list);
         return book;
     }
     /**
@@ -57,7 +56,7 @@ public class ExcelWirteForTable {
         // 创建工作簿
         XSSFWorkbook book = new XSSFWorkbook();
         // 创建工作表1
-        ExcelWirteForFourthSheet.getShee(book,list);
+        ExcelWirteForArriveWuHanSheet.getShee(book,list);
         return book;
     }
     /**
@@ -68,7 +67,7 @@ public class ExcelWirteForTable {
         // 创建工作簿
         XSSFWorkbook book = new XSSFWorkbook();
         // 创建工作表1
-        ExcelWirteForFifthSheet.getShee(book,list);
+        ExcelWirteForArriveHuBeiSheet.getShee(book,list);
         return book;
     }
     /**
@@ -80,7 +79,7 @@ public class ExcelWirteForTable {
         // 创建工作簿
         XSSFWorkbook book = new XSSFWorkbook();
         // 创建工作表
-        ExcelWirteForSixthSheet.getShee(book,list);
+        ExcelWirteForStayHuBeiSheet.getShee(book,list);
         return book;
     }
     /**
@@ -91,7 +90,7 @@ public class ExcelWirteForTable {
         // 创建工作簿
         XSSFWorkbook book = new XSSFWorkbook();
         // 创建工作表
-        ExcelWirteForSeventhSheet.getShee(book,list);
+        ExcelWirteForTouchHuBeiSheet.getShee(book,list);
         return book;
     }
     /**
@@ -152,6 +151,18 @@ public class ExcelWirteForTable {
     }
 
     /**
+     * 其他发热人员情况登记表
+     * @param list 要遍历的数据集合
+     */
+    public static XSSFWorkbook getForFeverPeople(List<Questionnaire> list) {
+        // 创建工作簿
+        XSSFWorkbook book = new XSSFWorkbook();
+        // 创建工作表
+        ExcelWirteForFeverPeopleSheet.getShee(book,list);
+        return book;
+    }
+
+    /**
      * 获取导出表一到密切接触者表的全部数据  表名：柳州市重点人群排查工作相关表格
      */
     public static XSSFWorkbook getAllSheet(DailyReportTable dailyReportTable,
@@ -166,23 +177,23 @@ public class ExcelWirteForTable {
         // 创建工作簿
         XSSFWorkbook book = new XSSFWorkbook();
         //表一 重点人群排查管理日报表
-        ExcelWirteForFisrtSheet.getShee(book,dailyReportTable);
+        ExcelWirteForDailyReportSheet.getShee(book,dailyReportTable);
         //表二 来自武汉市的市外人员排查日报表（一）
-        ExcelWirteForSecondSheet.getShee(book,list2);
+        ExcelWirteForComeFromWuHanSheet.getShee(book,list2);
         //表三  来自湖北省（除武汉市）的市外人员排查日报表（二）
-        ExcelWirteForThirdSheet.getShee(book,list3);
+        ExcelWirteForComeFromHuBeiSheet.getShee(book,list3);
         //表四  我市到过武汉市的人员排查日报表（三）
-        ExcelWirteForFourthSheet.getShee(book,list4);
+        ExcelWirteForArriveWuHanSheet.getShee(book,list4);
         //表五  我市到过湖北省（除武汉市）的人员排查日报表（四）
-        ExcelWirteForFifthSheet.getShee(book,list5);
+        ExcelWirteForArriveHuBeiSheet.getShee(book,list5);
         //表六  我市现在仍在湖北出差、休假、旅游、探亲等短时停留人员(五）
-        ExcelWirteForSixthSheet.getShee(book,list6);
+        ExcelWirteForStayHuBeiSheet.getShee(book,list6);
         //表七  来自广东、浙江、河南、湖南省的市外人员排查日报表（六）
         ExcelWirteForComeFromGZHHSheet.getShee(book,list7);
         //表八  我市到过广东、浙江、河南、湖南省的人员排查日报表（七）
         ExcelWirteForArriveGZHHSheet.getShee(book,list8);
         //密切接触着  密切接触过来自或到达过湖北等疫区人员情况表
-        ExcelWirteForSeventhSheet.getShee(book,touchlist);
+        ExcelWirteForTouchHuBeiSheet.getShee(book,touchlist);
         return book;
     }
 
@@ -199,6 +210,18 @@ public class ExcelWirteForTable {
         ExcelWirteForStudentSheet.getShee(book,StudentList);
         //教师表
         ExcelWirteForTeacherSheet.getShee(book,teacherList);
+        return book;
+    }
+
+    /**
+     * 可疑、疑似或确诊个体病例明细情况表
+     */
+    public static XSSFWorkbook getConfirmIllSheet(List<Questionnaire> list) {
+        // 创建工作簿
+        XSSFWorkbook book = new XSSFWorkbook();
+        // 创建工作表
+        //学生表
+        ExcelWirteForConfirmIllSheet.getShee(book,list);
         return book;
     }
 }
