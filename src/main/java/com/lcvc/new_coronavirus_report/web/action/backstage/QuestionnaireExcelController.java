@@ -75,10 +75,11 @@ public class QuestionnaireExcelController {
 
     //模板，张峰-看好案例，获取今天的表1-2的内容
     @GetMapping("/comeFromWuHan")
-    public String getTable2(HttpServletResponse response){
+    public String getTable2(HttpServletResponse response,String department){
         QuestionnaireQuery questionnairequery=new QuestionnaireQuery();
         questionnairequery.setQueryDate(new Date());//查找今天的表内容
         questionnairequery.setComefromWuHan(true);//查询来自武汉的记录
+        questionnairequery.setDepartment(department);//加入部门条件
         List<Questionnaire> list=questionnaireService.query(questionnairequery);//获取数据记录
         //导出表格
         XSSFWorkbook book= ExcelWirteForTable.getComeFromWuHanSheet(list);//根据记录，生成excel表格
@@ -140,7 +141,7 @@ public class QuestionnaireExcelController {
         //导出表格
         XSSFWorkbook book= ExcelWirteForTable.getStayHuBeiSheet(list);//根据记录，生成excel表格
         //创建文件对象，导出
-        this.outExcelStream(response,book," 1月16日后我市现在仍在湖北出差、休假、旅游、探亲等短时停留人员(五）");
+        this.outExcelStream(response,book," 我市现在仍在湖北（含武汉市）、广东、浙江、河南、湖南出差、休假、旅游、探亲等短时停留的师生员工(六)");
         return "SUCCESS";//这里其实就是随意返回一个字符串
     }
 
@@ -307,7 +308,12 @@ public class QuestionnaireExcelController {
         questionnairequerytouch.setQueryDate(new Date());//查找今天的表内容
         questionnairequerytouch.setTouchHuBeiPerson(true);//查询去过密切接触疫区人员的记录
         List<Questionnaire> touchlist=questionnaireService.query(questionnairequerytouch);//获取数据记录
-        Workbook book= ExcelWirteForTable.getAllSheet(dailyReportTable, list2, list3, list4,list5,list6,list7,list8,touchlist);//根据记录，生成excel表格
+        //发热人群数据
+        QuestionnaireQuery questionnairequeryfever=new QuestionnaireQuery();
+        questionnairequeryfever.setQueryDate(new Date());//查找今天的表内容
+        questionnairequeryfever.setFeverQuery(true);//查询发热病人的记录
+        List<Questionnaire> feverlist=questionnaireService.query(questionnairequeryfever);//获取数据记录
+        Workbook book= ExcelWirteForTable.getAllSheet(dailyReportTable, list2, list3, list4,list5,list6,list7,list8,touchlist,feverlist);//根据记录，生成excel表格
        //创建文件对象，导出
         this.outExcelStream(response,book,"柳州市重点人群排查工作相关表格");
         return "SUCCESS";//这里其实就是随意返回一个字符串
