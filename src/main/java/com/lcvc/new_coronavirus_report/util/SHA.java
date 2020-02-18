@@ -32,7 +32,7 @@ public class SHA {
 
     public static void main(String args[]) {
        try {
-            System.out.println("SHA加密后:" + getResult("lcvc_123456"));
+            System.out.println("SHA加密后:" + getResult("123456"));
         } catch (Exception e) {
             e.printStackTrace();
         }

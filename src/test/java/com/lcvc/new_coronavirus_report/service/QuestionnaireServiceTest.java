@@ -1,6 +1,7 @@
 package com.lcvc.new_coronavirus_report.service;
 
 import com.lcvc.new_coronavirus_report.model.Questionnaire;
+import com.lcvc.new_coronavirus_report.model.query.QuestionnaireQuery;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Date;
+import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -55,6 +57,16 @@ public class QuestionnaireServiceTest {
 
         questionnaireService.save(questionnaire,"192.142.11.9");//保存后去数据库检查相关字段是否有值
         //questionnaireDao.save(questionnaire);//保存后去数据库检查相关字段是否有值
+    }
+
+    @Test
+    public void testReadAll(){
+        QuestionnaireQuery questionnairequery=new QuestionnaireQuery();
+        //questionnairequery.setQueryDate(new Date());//查找今天的表内容
+        questionnairequery.setTeacherQuery(true);//查询教师信息
+        questionnairequery.setDepartment("信息工程系");//加入部门条件
+        List<Questionnaire> list=questionnaireService.query(questionnairequery);//获取数据记录
+        System.out.println(list.size());
     }
 
 }

@@ -15,6 +15,7 @@ public class Questionnaire {
     private String teacherNumber;//教师：教工号
     private String studentNumber;//学生：学号
     private String tel;//手机号，为保证准确性，依旧采用人工录入
+    private String department;//教师：所属部门
     private String workType;//教师：岗位或所授学科.工作岗位
     private Boolean practice;//学生：是否正在实习。true表示有，false表示没有。
     private String practiceWorkStatus;//请选择您当前的实习情况：'在家休息','在宿舍休息','在家远程上班','在单位上班'。只有选择了正在实习才要求填
@@ -393,5 +394,13 @@ public class Questionnaire {
 
     public void setTemperature(String temperature) {
         this.temperature = temperature;
+    }
+
+    public String getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
     }
 }

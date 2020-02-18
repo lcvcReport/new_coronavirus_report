@@ -173,10 +173,12 @@ public class ExcelWirteForTable {
                                            List<Questionnaire> list6,
                                            List<Questionnaire> list7,
                                            List<Questionnaire> list8,
-                                           List<Questionnaire> touchlist){
+                                           List<Questionnaire> touchlist,
+                                           List<Questionnaire> feverlist
+                                           ){
         // 创建工作簿
         XSSFWorkbook book = new XSSFWorkbook();
-        //表一 重点人群排查管理日报表
+        //汇总表 重点人群排查管理日报表
         ExcelWirteForDailyReportSheet.getShee(book,dailyReportTable);
         //表二 来自武汉市的市外人员排查日报表（一）
         ExcelWirteForComeFromWuHanSheet.getShee(book,list2);
@@ -194,6 +196,8 @@ public class ExcelWirteForTable {
         ExcelWirteForArriveGZHHSheet.getShee(book,list8);
         //密切接触着  密切接触过来自或到达过湖北等疫区人员情况表
         ExcelWirteForTouchHuBeiSheet.getShee(book,touchlist);
+        //发热人群
+        ExcelWirteForFeverPeopleSheet.getShee(book,feverlist);
         return book;
     }
 

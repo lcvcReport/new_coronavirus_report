@@ -6,7 +6,6 @@ import com.lcvc.new_coronavirus_report.model.base.PageObject;
 import com.lcvc.new_coronavirus_report.model.exception.MyServiceException;
 import com.lcvc.new_coronavirus_report.model.exception.MyWebException;
 import com.lcvc.new_coronavirus_report.model.query.QuestionnaireQuery;
-import com.lcvc.new_coronavirus_report.util.date.MyDateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -37,10 +36,13 @@ public class QuestionnaireService {
     private TeacherQuestionnaireDao teacherQuestionnaireDao;
     @Autowired
     private StudentQuestionnaireDao studentQuestionnaireDao;
+
     /**
      * 保存填表人的表单
-     *
+     * @param questionnaire
+     * @param ip
      */
+    @Transactional(rollbackFor = Exception.class)
     public void save(@NotNull Questionnaire questionnaire,String ip){
         //设置IP地址
         questionnaire.setIp(ip);
@@ -63,11 +65,12 @@ public class QuestionnaireService {
                 if(questionnaireDao.getQuestionnaireNumberByTeacherToday(teacher.getTeacherNumber())>0){
                     throw new MyServiceException("提交失败：今天已经提交过调查表，请明天再来");
                 }
-                if(StringUtils.isEmpty(questionnaire.getIdentity())){//如果身份证没有填，则从数据库里面读取。
+                if(StringUtils.isEmpty(questionnaire.getIdentityCard())){//如果身份证没有填，则从数据库里面读取。
                     questionnaire.setIdentityCard(teacher.getIdentityCard());//获取身份证
                 }
                 questionnaire.setName(teacher.getName());//获取姓名
                 questionnaire.setSex(teacher.getSex());//获取性别
+                questionnaire.setDepartment(teacher.getDepartment());//获取所在部门
                 //questionnaire.setTel(teacher.getTel());// 电话号码为了保证准确性，暂时都自己填
             }else{
                 throw new MyWebException("提交失败：该教工号不存在");
@@ -91,7 +94,7 @@ public class QuestionnaireService {
                 if(questionnaireDao.getQuestionnaireNumberByStudentToday(student.getStudentNumber())>0){
                     throw new MyServiceException("提交失败：今天已经提交过调查表，请明天再来");
                 }
-                if(StringUtils.isEmpty(questionnaire.getIdentity())){//如果身份证没有填，则从数据库里面读取。
+                if(StringUtils.isEmpty(questionnaire.getIdentityCard())){//如果身份证没有填，则从数据库里面读取。
                     questionnaire.setIdentityCard(student.getIdentityCard());//获取身份证
                 }
                 questionnaire.setName(student.getName());
@@ -107,7 +110,7 @@ public class QuestionnaireService {
         }
         //基础字段验证，不加spring验证框架
         //对其他字段进行验证
-        if(StringUtils.isEmpty(questionnaire.getIdentity())){//这里如果为空，说明表单没有身份证信息，数据库也没有身份证信息
+        if(StringUtils.isEmpty(questionnaire.getIdentityCard())){//这里如果为空，说明表单没有身份证信息，数据库也没有身份证信息
             throw new MyWebException("提交失败：请输入身份证号");
         }
         //对其他字段进行验证
@@ -251,7 +254,6 @@ public class QuestionnaireService {
             studentQuestionnaire.setIp(questionnaire.getIp());
             studentQuestionnaireDao.save(studentQuestionnaire);
         }
-        //throw new MyServiceException("测试回滚");
     }
 
     /**

@@ -205,4 +205,18 @@ public class QuestionnaireQueryController {
         return map;
     }
 
+    //获取生病的调查表内容
+    @GetMapping("/myIll")
+    public Map<String, Object> myIll(Integer page, Integer limit){
+        Map<String, Object> map=new HashMap<String, Object>();
+        map.put(Constant.JSON_CODE, JsonCode.SUCCESS.getValue());
+        QuestionnaireQuery questionnairequery=new QuestionnaireQuery();
+        questionnairequery.setQueryDate(new Date());//查找今天的表内容
+        questionnairequery.setMyIllQuery(true);//生病
+        PageObject pageObject =questionnaireService.query(page,limit,questionnairequery);
+        map.put(Constant.JSON_TOTAL,pageObject.getTotalRecords());
+        map.put(Constant.JSON_DATA,pageObject.getList());
+        return map;
+    }
+
 }

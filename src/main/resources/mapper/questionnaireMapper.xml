@@ -9,12 +9,12 @@
 
     <insert id="save"  useGeneratedKeys="true" keyProperty="id">
       insert into questionnaire(id,identity,teacherNumber,studentNumber,sex,name,registeredPlace,
-      identityCard,tel,workType,practice,practiceWorkStatus,comefromHuBei,comefromWuHan,arriveHuBei,arriveWuHan,stayInHubei,epidemicArea,
+      identityCard,tel,department,workType,practice,practiceWorkStatus,comefromHuBei,comefromWuHan,arriveHuBei,arriveWuHan,stayInHubei,epidemicArea,
       comeFromGZHH,arriveGZHH,province,
       addressInLiuZhou,arriveLiuZhou,leaveLiuZhou,leaveHubei,leaveHubeiWay,leaveTogetherPersonName,
       manageMethods,touchHuBeiPerson,touchHuBeiPersonName,touchHuBeiTime,touchHuBeiDescription,schoolClass,myHealth,temperature,myfamilyHealth,confirmIll,intro,ip,createTime)
       values(null,#{identity},#{teacherNumber},#{studentNumber},#{sex},#{name},#{registeredPlace},
-      #{identityCard},#{tel},#{workType},#{practice},#{practiceWorkStatus},#{comefromHuBei},#{comefromWuHan},#{arriveHuBei},#{arriveWuHan},#{stayInHubei},#{epidemicArea},
+      #{identityCard},#{tel},#{department},#{workType},#{practice},#{practiceWorkStatus},#{comefromHuBei},#{comefromWuHan},#{arriveHuBei},#{arriveWuHan},#{stayInHubei},#{epidemicArea},
       #{comeFromGZHH},#{arriveGZHH},#{province},
       #{addressInLiuZhou},#{arriveLiuZhou},#{leaveLiuZhou},#{leaveHubei},#{leaveHubeiWay},#{leaveTogetherPersonName},
       #{manageMethods},#{touchHuBeiPerson},#{touchHuBeiPersonName},#{touchHuBeiTime},#{touchHuBeiDescription},#{schoolClass},#{myHealth},#{temperature},#{myfamilyHealth},#{confirmIll},#{intro},#{ip},now())
@@ -47,6 +47,10 @@
                     <!-- bind，重新定义一个变量，可用于模糊查询等，并且可以直接覆盖原变量 -->
                     <bind name="schoolClass" value="'%' + _parameter.objectQuery.schoolClass + '%'" />
                     and schoolClass like #{schoolClass}
+                </if>
+                <bind name="department" value="objectQuery.department" />
+                <if test="department!=null and department.length()>0">
+                    and department=#{department}
                 </if>
                 <if test="objectQuery.practice!=null">
                     and practice=#{objectQuery.practice}

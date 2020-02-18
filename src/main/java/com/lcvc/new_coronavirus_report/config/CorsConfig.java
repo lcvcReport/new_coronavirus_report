@@ -9,7 +9,9 @@ import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * 整站的跨域配置
@@ -18,6 +20,17 @@ import java.util.Arrays;
  */
 @Configuration//@Configuration 代表是一个 Java 配置文件 ， Spring会根据它来生成 IoC 容器去装配 Bean
 public class CorsConfig implements WebMvcConfigurer {
+
+    private List<String> originsList = new ArrayList<String>() {{
+        add("http://localhost:80");
+        add("http://127.0.0.1:80");
+        add("http://localhost:8080");
+        add("http://127.0.0.1:8080");
+        add("http://120.76.118.101");//ljy的服务器
+        add("http://47.103.0.255:8080");//朱晓茵的服务器
+        add("http://220.173.103.143");//学校的服务器
+        add("http://yq.lcvc.cn");//学校的服务器
+    }};
     /**
      * 说明：addCorsMappings允许跨域，简单访问没问题，如果用户没登录被 filter 拦截的话，返回信息得不到，显示跨域失败，
      * 原因是 filter 直接拦截的执行在前，允许跨域执行在后，
@@ -25,12 +38,13 @@ public class CorsConfig implements WebMvcConfigurer {
      */
     @Override
     public void addCorsMappings(CorsRegistry corsRegistry) {
+        //System.out.println(String.join(",",originsList));
         // 允许跨域访问资源定义： /api/ 所有资源
         corsRegistry.addMapping("/api/**")
                 // 放行哪些原始域,这里改为允许所有端口访问
-                .allowedOrigins("*")
-                // 只允许本地的8020端口访问
-                //.allowedOrigins("http://localhost:8088", "http://127.0.0.1:8020")
+                //.allowedOrigins("*")
+                // 只允许一下的访问口访问
+                .allowedOrigins(String.join(",",originsList))
                 //放行哪些原始域(头部信息)
                 //.allowedHeaders("accept","content-type","application/json")
                 .allowedHeaders("*")
@@ -52,7 +66,13 @@ public class CorsConfig implements WebMvcConfigurer {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true); // 允许cookies跨域
-        config.addAllowedOrigin("*");//用于提供给学生访问测试，如果是正式应用中这里尽量限制来源域，如http://127.0.0.1:8020，降低安全风险
+        //config.addAllowedOrigin("*");
+        config.setAllowedOrigins(originsList);
+      /*  config.addAllowedOrigin("http://localhost:80");//用于提供给学生访问测试，如果是正式应用中这里尽量限制来源域，如http://127.0.0.1:8020，降低安全风险
+        config.addAllowedOrigin("http://127.0.0.1:80");
+        config.addAllowedOrigin("http://localhost:8080");
+        config.addAllowedOrigin("http://127.0.0.1:8080");*/
+        //config.addAllowedOrigin("http://220.173.103.143");
         config.addAllowedHeader("*");
         config.setExposedHeaders(Arrays.asList("access-control-allow-headers","access-control-allow-methods","access-control-allow-origin", "access-control-max-age","X-Frame-Options"));
         //addAllowedHeader,允许访问的头信息,*表示全部

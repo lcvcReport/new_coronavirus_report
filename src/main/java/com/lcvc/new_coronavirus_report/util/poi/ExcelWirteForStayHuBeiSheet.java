@@ -15,17 +15,27 @@ import java.util.List;
 public class ExcelWirteForStayHuBeiSheet {
 
     /**
-     * 1.6
-     * 1月16日后我市现在仍在湖北出差、休假、旅游、探亲等短时停留人员(五）
+     *我市现在仍在湖北（含武汉市）、广东、浙江、河南、湖南出差、休假、旅游、探亲等短时停留的师生员工(六)
      *
      * @param book 传递进来的工作部对象
      * @param list 要遍历的数据集合
      * @return
      */
     public static XSSFSheet getShee(XSSFWorkbook book, List<Questionnaire> list) {
-        String header[] = {"1月16日后我市现在仍在湖北出差、休假、旅游、探亲等短时停留人员(五）"};
-        String title[] = {"序号", "姓名", "身份证号码", "手机号码", "疫区居住地", "柳州居住地", "离柳时间", "回柳时间", "备注"};
-        String footer[]={"填报人：","审核人：","签发人："};
+        String header[] = {"我市现在仍在湖北（含武汉市）、广东、浙江、河南、湖南出差、休假、旅游、探亲等短时停留的师生员工"};
+        String title[] = {
+                "序号",
+                "姓名",
+                "单位/学校年级班级（专业）",
+                "性别",
+                "身份证号码",
+                "手机号码",
+                "疫区居住地",
+                "柳州居住地",
+                "离柳时间",
+                "回柳时间",
+                "备注"};
+        String footer[]={"填表说明：仍在上述五省，未回柳州的师生员工。"};
 
         // 创建一个工作表
         XSSFSheet sheet = book.createSheet("表六");
@@ -65,8 +75,10 @@ public class ExcelWirteForStayHuBeiSheet {
         //跨行跨列
         //header行
         CellRangeAddress region = new CellRangeAddress(0, 0, 0, title.length - 1);
+        CellRangeAddress region1 = new CellRangeAddress(list.size()+2, list.size()+2, 0, title.length - 1);
 
         sheet.addMergedRegion(region);
+        sheet.addMergedRegion(region1);
 
         //添加表头栏
         for (int i = 0; i < title.length; i++) {
@@ -97,37 +109,50 @@ public class ExcelWirteForStayHuBeiSheet {
             name.setCellValue(list.get(i).getName());
             name.setCellStyle(titleStyle);
 
-            XSSFCell identityCard = listRow.createCell(2);
+            XSSFCell schoolClassOrworkType = listRow.createCell(2);
+            schoolClassOrworkType.setCellStyle(titleStyle);
+            if (list.get(i).getStudentNumber()!=null){
+                schoolClassOrworkType.setCellValue(list.get(i).getSchoolClass());
+            }
+            if (list.get(i).getTeacherNumber()!=null){
+                schoolClassOrworkType.setCellValue(list.get(i).getWorkType());
+            }
+
+            XSSFCell sex = listRow.createCell(3);
+            sex.setCellValue(list.get(i).getSex());
+            sex.setCellStyle(titleStyle);
+
+            XSSFCell identityCard = listRow.createCell(4);
             identityCard.setCellValue(list.get(i).getIdentityCard());
             identityCard.setCellStyle(titleStyle);
 
-            XSSFCell tel = listRow.createCell(3);
+            XSSFCell tel = listRow.createCell(5);
             tel.setCellValue(list.get(i).getTel());
             tel.setCellStyle(titleStyle);
 
-            XSSFCell epidemicArea = listRow.createCell(4);
+            XSSFCell epidemicArea = listRow.createCell(6);
             epidemicArea.setCellValue(list.get(i).getEpidemicArea());
             epidemicArea.setCellStyle(titleStyle);
 
-            XSSFCell addressInLiuZhou = listRow.createCell(5);
+            XSSFCell addressInLiuZhou = listRow.createCell(7);
             addressInLiuZhou.setCellValue(list.get(i).getAddressInLiuZhou());
             addressInLiuZhou.setCellStyle(titleStyle);
 
-            XSSFCell leaveLiuZhou = listRow.createCell(6);
+            XSSFCell leaveLiuZhou = listRow.createCell(8);
             if (list.get(i).getLeaveLiuZhou()!=null){
                 SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd");
                 leaveLiuZhou.setCellValue(formatter.format(list.get(i).getLeaveLiuZhou()));
             }
             leaveLiuZhou.setCellStyle(titleStyle);
 
-            XSSFCell arriveLiuZhou = listRow.createCell(7);
+            XSSFCell arriveLiuZhou = listRow.createCell(9);
             if (list.get(i).getArriveLiuZhou()!=null){
                 SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd");
                 arriveLiuZhou.setCellValue(formatter.format(list.get(i).getArriveLiuZhou()));
             }
             arriveLiuZhou.setCellStyle(titleStyle);
 
-            XSSFCell intro = listRow.createCell(8);
+            XSSFCell intro = listRow.createCell(10);
             intro.setCellValue(list.get(i).getIntro());
             intro.setCellStyle(titleStyle);
         }
@@ -138,13 +163,6 @@ public class ExcelWirteForStayHuBeiSheet {
 
         XSSFCell footerCell0 = footerRow.createCell(0);
         footerCell0.setCellValue(footer[0]);
-
-        XSSFCell footerCell1 = footerRow.createCell(4);
-        footerCell1.setCellValue(footer[1]);
-
-        XSSFCell footerCell8 = footerRow.createCell(8);
-        footerCell8.setCellValue(footer[2]);
-
         return sheet;
     }
 }

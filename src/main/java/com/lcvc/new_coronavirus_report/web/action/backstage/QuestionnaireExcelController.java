@@ -91,10 +91,11 @@ public class QuestionnaireExcelController {
 
     //获取今天的表1-3的内容
     @GetMapping("/comeFromHuBei")
-    public String getTable3(HttpServletResponse response){
+    public String getTable3(HttpServletResponse response,String department){
         QuestionnaireQuery questionnairequery=new QuestionnaireQuery();
         questionnairequery.setQueryDate(new Date());//查找今天的表内容
         questionnairequery.setComefromHuBei(true);//查询来自湖北的记录
+        questionnairequery.setDepartment(department);//加入部门条件
         List<Questionnaire> list=questionnaireService.query(questionnairequery);//获取数据记录
         //导出表格
         XSSFWorkbook book= ExcelWirteForTable.getComeFromHuBeiSheet(list);//根据记录，生成excel表格
@@ -105,10 +106,11 @@ public class QuestionnaireExcelController {
 
     //获取今天的表1-4的内容
     @GetMapping("/arriveWuHan")
-    public String getTable4(HttpServletResponse response){
+    public String getTable4(HttpServletResponse response,String department){
         QuestionnaireQuery questionnairequery=new QuestionnaireQuery();
         questionnairequery.setQueryDate(new Date());//查找今天的表内容
         questionnairequery.setArriveWuHan(true);//查询去过武汉的记录
+        questionnairequery.setDepartment(department);//加入部门条件
         List<Questionnaire> list=questionnaireService.query(questionnairequery);//获取数据记录
         //导出表格
         XSSFWorkbook book= ExcelWirteForTable.getArriveWuHanSheet(list);//根据记录，生成excel表格
@@ -119,10 +121,11 @@ public class QuestionnaireExcelController {
 
     //获取今天的表1-5的内容
     @GetMapping("/arriveHuBei")
-    public String getTable5(HttpServletResponse response){
+    public String getTable5(HttpServletResponse response,String department){
         QuestionnaireQuery questionnairequery=new QuestionnaireQuery();
         questionnairequery.setQueryDate(new Date());//查找今天的表内容
         questionnairequery.setArriveHuBei(true);//查询去过湖北的记录
+        questionnairequery.setDepartment(department);//加入部门条件
         List<Questionnaire> list=questionnaireService.query(questionnairequery);//获取数据记录
         //导出表格
         XSSFWorkbook book= ExcelWirteForTable.getArriveHuBeiSheet(list);//根据记录，生成excel表格
@@ -133,10 +136,11 @@ public class QuestionnaireExcelController {
 
     //获取今天的表1-6的内容
     @GetMapping("/stayHuBei")
-    public String getTable6(HttpServletResponse response){
+    public String getTable6(HttpServletResponse response,String department){
         QuestionnaireQuery questionnairequery=new QuestionnaireQuery();
         questionnairequery.setQueryDate(new Date());//查找今天的表内容
         questionnairequery.setStayInHubei(true);//查询当前依旧停留在湖北的
+        questionnairequery.setDepartment(department);//加入部门条件
         List<Questionnaire> list=questionnaireService.query(questionnairequery);//获取数据记录
         //导出表格
         XSSFWorkbook book= ExcelWirteForTable.getStayHuBeiSheet(list);//根据记录，生成excel表格
@@ -147,10 +151,11 @@ public class QuestionnaireExcelController {
 
     //获取今天的表1-7的内容
     @GetMapping("/touchHuBei")
-    public String getTable7(HttpServletResponse response){
+    public String getTable7(HttpServletResponse response,String department){
         QuestionnaireQuery questionnairequery=new QuestionnaireQuery();
         questionnairequery.setQueryDate(new Date());//查找今天的表内容
         questionnairequery.setTouchHuBeiPerson(true);//查询去过密切接触疫区人员的记录
+        questionnairequery.setDepartment(department);//加入部门条件
         List<Questionnaire> list=questionnaireService.query(questionnairequery);//获取数据记录
         //导出表格
         XSSFWorkbook book= ExcelWirteForTable.getTouchHuBeiSheet(list);//根据记录，生成excel表格
@@ -161,12 +166,13 @@ public class QuestionnaireExcelController {
 
     //发热记录
     @GetMapping("/fever")
-    public String fever(HttpServletResponse response){
+    public String fever(HttpServletResponse response,String department){
         Map<String, Object> map=new HashMap<String, Object>();
         map.put(Constant.JSON_CODE, JsonCode.SUCCESS.getValue());
         QuestionnaireQuery questionnairequery=new QuestionnaireQuery();
         questionnairequery.setQueryDate(new Date());//查找今天的表内容
         questionnairequery.setFeverQuery(true);//查询发热病人的记录
+        questionnairequery.setDepartment(department);//加入部门条件
         List<Questionnaire> list=questionnaireService.query(questionnairequery);//获取数据记录
         //导出表格
         XSSFWorkbook book= ExcelWirteForTable.getForFeverPeople(list);//根据记录，生成excel表格
@@ -177,12 +183,13 @@ public class QuestionnaireExcelController {
 
     //来自广东、浙江、河南、湖南省的市外人员排查日报表
     @GetMapping("/comeFromGZHH")
-    public String comeFromGZHH(HttpServletResponse response){
+    public String comeFromGZHH(HttpServletResponse response,String department){
         Map<String, Object> map=new HashMap<String, Object>();
         map.put(Constant.JSON_CODE, JsonCode.SUCCESS.getValue());
         QuestionnaireQuery questionnairequery=new QuestionnaireQuery();
         questionnairequery.setQueryDate(new Date());//查找今天的表内容
         questionnairequery.setComeFromGZHH(true);//查询来自广东、浙江、河南、湖南省的市外人员
+        questionnairequery.setDepartment(department);//加入部门条件
         List<Questionnaire> list=questionnaireService.query(questionnairequery);//获取数据记录
         //创建文件对象，导出
         XSSFWorkbook book= ExcelWirteForTable.getComeFromGZHHSheet(list);//根据记录，生成excel表格
@@ -193,12 +200,13 @@ public class QuestionnaireExcelController {
 
     //去过广东、浙江、河南、湖南省的市外人员排查日报表
     @GetMapping("/arriveGZHH")
-    public String arriveGZHH(HttpServletResponse response){
+    public String arriveGZHH(HttpServletResponse response,String department){
         Map<String, Object> map=new HashMap<String, Object>();
         map.put(Constant.JSON_CODE, JsonCode.SUCCESS.getValue());
         QuestionnaireQuery questionnairequery=new QuestionnaireQuery();
         questionnairequery.setQueryDate(new Date());//查找今天的表内容
         questionnairequery.setArriveGZHH(true);//查询去过广东、浙江、河南、湖南省的市外人员
+        questionnairequery.setDepartment(department);//加入部门条件
         List<Questionnaire> list=questionnaireService.query(questionnairequery);//获取数据记录
         //创建文件对象，导出
         XSSFWorkbook book= ExcelWirteForTable.getArriveGZHHSheet(list);//根据记录，生成excel表格
@@ -224,29 +232,16 @@ public class QuestionnaireExcelController {
 
     //获取今天的教师表日常记录的内容
     @GetMapping("/teacher")
-    public String getTeacherTable(HttpServletResponse response){
+    public String getTeacherTable(HttpServletResponse response,String department){
         QuestionnaireQuery questionnairequery=new QuestionnaireQuery();
         questionnairequery.setQueryDate(new Date());//查找今天的表内容
         questionnairequery.setTeacherQuery(true);//查询教师信息
+        questionnairequery.setDepartment(department);//加入部门条件
         List<Questionnaire> list=questionnaireService.query(questionnairequery);//获取数据记录
         //导出表格
         XSSFWorkbook book= ExcelWirteForTable.getTeacherSheet(list);//根据记录，生成excel表格
         //创建文件对象，导出
         this.outExcelStream(response,book," 教职工自觉居家观察健康状况表");
-        return "SUCCESS";//这里其实就是随意返回一个字符串
-    }
-
-    //可疑、疑似或确诊个体病例明细情况表
-    @GetMapping("/confirmIll")
-    public String getConfirmIllTable(HttpServletResponse response){
-        QuestionnaireQuery questionnairequery=new QuestionnaireQuery();
-        questionnairequery.setQueryDate(new Date());//查找今天的表内容
-        questionnairequery.setTeacherQuery(true);//查询教师信息
-        List<Questionnaire> list=questionnaireService.query(questionnairequery);//获取数据记录
-        //导出表格
-        XSSFWorkbook book= ExcelWirteForTable.getConfirmIllSheet(list);//根据记录，生成excel表格
-        //创建文件对象，导出
-        this.outExcelStream(response,book," 可疑、疑似或确诊个体病例明细情况表11");
         return "SUCCESS";//这里其实就是随意返回一个字符串
     }
 
@@ -264,54 +259,80 @@ public class QuestionnaireExcelController {
         this.outExcelStream(response,book," 实习学生当前在单位上岗情况表");
         return "SUCCESS";//这里其实就是随意返回一个字符串
     }
+
+
+
+    //可疑、疑似或确诊个体病例明细情况表
+    @GetMapping("/myIll")
+    public String getConfirmIllTable(HttpServletResponse response){
+        QuestionnaireQuery questionnairequery=new QuestionnaireQuery();
+       questionnairequery.setQueryDate(new Date());//查找今天的表内容
+        questionnairequery.setMyIllQuery(true);//查询确诊病人
+        List<Questionnaire> list=questionnaireService.query(questionnairequery);//获取数据记录
+        //导出表格
+        XSSFWorkbook book= ExcelWirteForTable.getConfirmIllSheet(list);//根据记录，生成excel表格
+        //创建文件对象，导出
+        this.outExcelStream(response,book," 可疑、疑似或确诊个体病例明细情况表");
+        return "SUCCESS";//这里其实就是随意返回一个字符串
+    }
+
     @GetMapping("/getAll")
-    public String getAllTable(HttpServletResponse response){
+    public String getAllTable(HttpServletResponse response,String department){
         //获取今天的表1-1的内容
         DailyReportTable  dailyReportTable=  dailyReportService.getDailyReportInTodayAndYesterDay();
         //获取今天的表1-2的内容
         QuestionnaireQuery questionnairequery2=new QuestionnaireQuery();
         questionnairequery2.setQueryDate(new Date());//查找今天的表内容
         questionnairequery2.setComefromWuHan(true);//查询来自武汉的记录
+        questionnairequery2.setDepartment(department);//加入部门条件
         List<Questionnaire> list2=questionnaireService.query(questionnairequery2);//获取数据记录
         //获取今天表1-3的内容
         QuestionnaireQuery questionnairequery3=new QuestionnaireQuery();
         questionnairequery3.setQueryDate(new Date());//查找今天的表内容
         questionnairequery3.setComefromHuBei(true);//查询来自湖北的记录
+        questionnairequery3.setDepartment(department);//加入部门条件
         List<Questionnaire> list3=questionnaireService.query(questionnairequery3);//获取数据记录
         //获取表4
         QuestionnaireQuery questionnairequery4=new QuestionnaireQuery();
         questionnairequery4.setQueryDate(new Date());//查找今天的表内容
         questionnairequery4.setArriveWuHan(true);//查询去过武汉的记录
+        questionnairequery4.setDepartment(department);//加入部门条件
         List<Questionnaire> list4=questionnaireService.query(questionnairequery4);//获取数据记录
         //获取表5
         QuestionnaireQuery questionnairequery5=new QuestionnaireQuery();
         questionnairequery5.setQueryDate(new Date());//查找今天的表内容
         questionnairequery5.setArriveHuBei(true);//查询去过湖北的记录
+        questionnairequery5.setDepartment(department);//加入部门条件
         List<Questionnaire> list5=questionnaireService.query(questionnairequery5);//获取数据记录
         //获取表六
         QuestionnaireQuery questionnairequery6=new QuestionnaireQuery();
         questionnairequery6.setQueryDate(new Date());//查找今天的表内容
         questionnairequery6.setStayInHubei(true);//查询当前依旧停留在湖北的
+        questionnairequery6.setDepartment(department);//加入部门条件
         List<Questionnaire> list6=questionnaireService.query(questionnairequery6);//获取数据记录
         //获取表7
         QuestionnaireQuery questionnairequery7=new QuestionnaireQuery();
         questionnairequery7.setQueryDate(new Date());//查找今天的表内容
         questionnairequery7.setComeFromGZHH(true);//查询来自广东、浙江、河南、湖南省的市外人员
+        questionnairequery7.setDepartment(department);//加入部门条件
         List<Questionnaire> list7=questionnaireService.query(questionnairequery7);//获取数据记录
         //获取表8
         QuestionnaireQuery questionnairequery8=new QuestionnaireQuery();
         questionnairequery8.setQueryDate(new Date());//查找今天的表内容
         questionnairequery8.setArriveGZHH(true);//查询去过广东、浙江、河南、湖南省的市外人员
+        questionnairequery8.setDepartment(department);//加入部门条件
         List<Questionnaire> list8=questionnaireService.query(questionnairequery8);//获取数据记录
         //获取密切接触者表
         QuestionnaireQuery questionnairequerytouch=new QuestionnaireQuery();
         questionnairequerytouch.setQueryDate(new Date());//查找今天的表内容
         questionnairequerytouch.setTouchHuBeiPerson(true);//查询去过密切接触疫区人员的记录
+        questionnairequerytouch.setDepartment(department);//加入部门条件
         List<Questionnaire> touchlist=questionnaireService.query(questionnairequerytouch);//获取数据记录
         //发热人群数据
         QuestionnaireQuery questionnairequeryfever=new QuestionnaireQuery();
         questionnairequeryfever.setQueryDate(new Date());//查找今天的表内容
         questionnairequeryfever.setFeverQuery(true);//查询发热病人的记录
+        questionnairequeryfever.setDepartment(department);//加入部门条件
         List<Questionnaire> feverlist=questionnaireService.query(questionnairequeryfever);//获取数据记录
         Workbook book= ExcelWirteForTable.getAllSheet(dailyReportTable, list2, list3, list4,list5,list6,list7,list8,touchlist,feverlist);//根据记录，生成excel表格
        //创建文件对象，导出

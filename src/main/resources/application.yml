@@ -79,3 +79,13 @@ logging:
   level:
     com.lcvc.new_coronavirus_report: error
     org.springframework: error
+# 防止XSS攻击
+xss:
+  # 过滤开关
+  enabled: true
+  # 排除链接（多个用逗号分隔）
+  #excludes: /system/notice/*
+  excludes:
+  # 匹配链接
+  #urlPatterns: /system/*,/monitor/*,/tool/*
+  urlPatterns: /api/*

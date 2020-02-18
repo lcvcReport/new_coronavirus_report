@@ -37,7 +37,7 @@
                         (select questionnaire.teacherNumber from questionnaire,teacher
                         <where>
                             <if test="department!=null and department.length()>0">
-                                and department=#{department}
+                                and teacher.department=#{department}
                             </if>
                             and teacher.teacherNumber=questionnaire.teacherNumber
                             and identity='teacher'
@@ -50,7 +50,7 @@
                         (select questionnaire.teacherNumber from questionnaire,teacher
                         <where>
                             <if test="department!=null and department.length()>0">
-                                and department=#{department}
+                                and teacher.department=#{department}
                             </if>
                             and teacher.teacherNumber=questionnaire.teacherNumber
                             and identity='teacher'
