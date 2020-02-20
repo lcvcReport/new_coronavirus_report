@@ -1,12 +1,16 @@
 package com.lcvc.new_coronavirus_report.web.action.backstage;
 
 import com.lcvc.new_coronavirus_report.model.Questionnaire;
+import com.lcvc.new_coronavirus_report.model.Strand;
+import com.lcvc.new_coronavirus_report.model.StrandCount;
 import com.lcvc.new_coronavirus_report.model.base.Constant;
 import com.lcvc.new_coronavirus_report.model.base.JsonCode;
 import com.lcvc.new_coronavirus_report.model.form.DailyReportTable;
 import com.lcvc.new_coronavirus_report.model.query.QuestionnaireQuery;
+import com.lcvc.new_coronavirus_report.model.query.StrandQuery;
 import com.lcvc.new_coronavirus_report.service.DailyReportService;
 import com.lcvc.new_coronavirus_report.service.QuestionnaireService;
+import com.lcvc.new_coronavirus_report.service.StrandService;
 import com.lcvc.new_coronavirus_report.util.poi.ExcelWirteForTable;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -32,6 +36,9 @@ public class QuestionnaireExcelController {
     private QuestionnaireService questionnaireService;
     @Autowired
     private DailyReportService dailyReportService;
+    @Autowired
+    private StrandService strandService;
+
 
 
 
@@ -358,4 +365,40 @@ public class QuestionnaireExcelController {
         this.outExcelStream(response,book," 居家隔离观察健康状况表");
         return "SUCCESS";//这里其实就是随意返回一个字符串
     }
+    //ZF加  滞留疫区无法返回教职工情况统计表
+    @GetMapping("/strandCount")
+    public String getStrandCountTable(HttpServletResponse response){
+        StrandCount strandCount = strandService.queryCount();
+        XSSFWorkbook book= ExcelWirteForTable.getStranCountSheet(strandCount);//根据记录，生成excel表格
+        //创建文件对象，导出
+        this.outExcelStream(response,book," 滞留疫区无法返回教职工情况统计");
+        return "SUCCESS";//这里其实就是随意返回一个字符串
+    }
+    //ZF加  滞留疫区无法返回教职工信息表
+    @GetMapping("/strand")
+    public String getStrandTable(HttpServletResponse response){
+        StrandQuery strandQuery=new StrandQuery();
+        strandQuery.setWeekQuery(true);
+        List<Strand>list = strandService.query(strandQuery);
+        XSSFWorkbook book= ExcelWirteForTable.getStranSheet(list);//根据记录，生成excel表格
+        //创建文件对象，导出
+        this.outExcelStream(response,book," 滞留疫区无法返回教职工情况统计");
+        return "SUCCESS";//这里其实就是随意返回一个字符串
+    }
+
+    //ZF加  滞留疫区职工情况摸查
+    @GetMapping("/strandAll")
+    public String getStrandReportTable(HttpServletResponse response){
+        // 滞留疫区无法返回教职工情况统计表
+        StrandCount strandCount = strandService.queryCount();
+        //滞留疫区无法返回教职工信息表
+        StrandQuery strandQuery=new StrandQuery();
+        strandQuery.setWeekQuery(true);
+        List<Strand>list = strandService.query(strandQuery);
+        XSSFWorkbook book= ExcelWirteForTable.getStranReportSheet(list, strandCount);//根据记录，生成excel表格
+        //创建文件对象，导出
+        this.outExcelStream(response,book," 滞留疫区职工情况摸查");
+        return "SUCCESS";//这里其实就是随意返回一个字符串
+    }
+
 }

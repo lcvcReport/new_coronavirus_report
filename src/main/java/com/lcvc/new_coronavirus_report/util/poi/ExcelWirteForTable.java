@@ -1,6 +1,8 @@
 package com.lcvc.new_coronavirus_report.util.poi;
 
 import com.lcvc.new_coronavirus_report.model.Questionnaire;
+import com.lcvc.new_coronavirus_report.model.Strand;
+import com.lcvc.new_coronavirus_report.model.StrandCount;
 import com.lcvc.new_coronavirus_report.model.form.DailyReportTable;
 import org.apache.poi.xssf.usermodel.*;
 import org.springframework.stereotype.Service;
@@ -228,4 +230,36 @@ public class ExcelWirteForTable {
         ExcelWirteForConfirmIllSheet.getShee(book,list);
         return book;
     }
+
+    //滞留疫区无法返回教职工情况统计
+    public static XSSFWorkbook getStranCountSheet(StrandCount strandCount) {
+        // 创建工作簿
+        XSSFWorkbook book = new XSSFWorkbook();
+        // 创建工作表
+        //学生表
+        ExcelWirteForStrandCountSheet.getShee(book, strandCount);
+        return book;
+    }
+
+    //滞留疫区无法返回教职工信息表
+    public static XSSFWorkbook getStranSheet(List<Strand> list) {
+        // 创建工作簿
+        XSSFWorkbook book = new XSSFWorkbook();
+        // 创建工作表
+        //学生表
+        ExcelWirteForStrandSheet.getShee(book,list);
+        return book;
+    }
+
+    //滞留疫区职工情况摸查
+    public static XSSFWorkbook getStranReportSheet(List<Strand> list, StrandCount strandCount) {
+        // 创建工作簿
+        XSSFWorkbook book = new XSSFWorkbook();
+        // 创建工作表
+        //学生表
+        ExcelWirteForStrandCountSheet.getShee(book, strandCount);
+        ExcelWirteForStrandSheet.getShee(book,list);
+        return book;
+    }
+
 }
