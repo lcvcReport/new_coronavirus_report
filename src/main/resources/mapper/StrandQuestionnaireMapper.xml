@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 指明这个映射文件adminMapper.xml的逻辑路径,如果与接口建立映射，那么逻辑路径应该与接口的物理路径一致-->
+<mapper namespace="com.lcvc.new_coronavirus_report.dao.StrandQuestionnaireDao">
+    <!--==================================基本查询============================-->
+
+    <insert id="save" useGeneratedKeys="true" keyProperty="id">
+          insert into teacherstrand_questionnaire(id,name,currentCity,myHealth,workType,reason,returnLiuZhou,returnLiuZhouTime,returnLiuZhouWay,intro,createTime)
+          values(null,#{name},#{currentCity},#{myHealth},#{workType},#{reason},#{returnLiuZhou},#{returnLiuZhouTime},#{returnLiuZhouWay},#{intro},now())
+    </insert>
+
+    <!--统一查询的条件，方便用于分页等查询，这里提供给query,querySize,readAll调用-->
+    <sql id="queryWhere">
+        <if test="objectQuery!=null">
+            <where>
+                <if test="objectQuery.returnLiuZhouQuery!=null">
+                    and YEARWEEK(date_format(returnLiuZhouTime,'%Y-%m-%d'),1) = YEARWEEK(now(),1)
+                </if>
+                <if test="objectQuery.weekQuery!=null">
+                    and YEARWEEK(date_format(createTime,'%Y-%m-%d'),1) = YEARWEEK(now(),1)
+                </if>
+                <if test="objectQuery.returnLiuZhou!=null">
+                    and returnLiuZhou=#{objectQuery.returnLiuZhou}
+                </if>
+            </where>
+        </if>
+    </sql>
+
+    <select id="query" resultType="Strand">
+        select * from teacherstrand_questionnaire
+        <include refid="queryWhere"></include>
+        order by createTime desc limit #{offset},#{length}
+    </select>
+
+    <select id="querySize" resultType="Integer">
+        select count(1)  from teacherstrand_questionnaire
+        <include refid="queryWhere"></include>
+    </select>
+
+    <select id="readAll" resultType="Strand">
+        select * from teacherstrand_questionnaire
+        <include refid="queryWhere"></include>
+        order by id asc
+    </select>
+</mapper>
