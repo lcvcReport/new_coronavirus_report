@@ -18,7 +18,7 @@ public class StrandServiceTest {
     @Test
     public void testSave(){
         Strand strand =new Strand();
-        strand.setName("小明哥");
+        strand.setName("");
         strand.setUnit("柳州城职");
         strand.setCurrentCity("湖北武汉");
         strand.setMyHealth("健康");
