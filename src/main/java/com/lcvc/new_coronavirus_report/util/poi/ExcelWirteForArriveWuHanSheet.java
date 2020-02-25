@@ -172,7 +172,7 @@ public class ExcelWirteForArriveWuHanSheet {
             //电话排查内容
             XSSFCell telLeaveHubei= listRow.createCell(5);
             if (list.get(i).getLeaveHubei()!=null){
-                SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd");
+                SimpleDateFormat formatter=new SimpleDateFormat("yyyyMMdd");
                 telLeaveHubei.setCellValue(formatter.format(list.get(i).getLeaveHubei()));
             }
             telLeaveHubei.setCellStyle(titleStyle);
@@ -197,14 +197,14 @@ public class ExcelWirteForArriveWuHanSheet {
             //入户排查内容
             XSSFCell intoLeaveHubei= listRow.createCell(9);
             if (list.get(i).getLeaveHubei()!=null){
-                SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd");
+                SimpleDateFormat formatter=new SimpleDateFormat("yyyyMMdd");
                 intoLeaveHubei.setCellValue(formatter.format(list.get(i).getLeaveHubei()));
             }
             intoLeaveHubei.setCellStyle(titleStyle);
 
             XSSFCell intoArriveLiuZhou= listRow.createCell(10);
             if (list.get(i).getArriveLiuZhou()!=null){
-                SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd");
+                SimpleDateFormat formatter=new SimpleDateFormat("yyyyMMdd");
                 intoArriveLiuZhou.setCellValue(formatter.format(list.get(i).getArriveLiuZhou()));
             }
             intoArriveLiuZhou.setCellStyle(titleStyle);

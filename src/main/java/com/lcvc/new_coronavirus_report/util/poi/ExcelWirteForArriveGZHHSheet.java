@@ -208,7 +208,7 @@ public class ExcelWirteForArriveGZHHSheet {
 
             XSSFCell telLeaveTime= listRow.createCell(5);
             if (list.get(i).getLeaveHubei()!=null){
-                SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd");
+                SimpleDateFormat formatter=new SimpleDateFormat("yyyyMMdd");
                 telLeaveTime.setCellValue(formatter.format(list.get(i).getLeaveHubei()));
             }
             telLeaveTime.setCellStyle(titleStyle);
@@ -239,7 +239,7 @@ public class ExcelWirteForArriveGZHHSheet {
 
             XSSFCell intoLeaveTime= listRow.createCell(10);
             if (list.get(i).getLeaveHubei()!=null){
-                SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd");
+                SimpleDateFormat formatter=new SimpleDateFormat("yyyyMMdd");
                 intoLeaveTime.setCellValue(formatter.format(list.get(i).getLeaveHubei()));
             }
             intoLeaveTime.setCellStyle(titleStyle);
@@ -247,7 +247,7 @@ public class ExcelWirteForArriveGZHHSheet {
 
             XSSFCell intoArriveLiuZhou= listRow.createCell(11);
             if (list.get(i).getArriveLiuZhou()!=null){
-                SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd");
+                SimpleDateFormat formatter=new SimpleDateFormat("yyyyMMdd");
                 intoArriveLiuZhou.setCellValue(formatter.format(list.get(i).getArriveLiuZhou()));
             }
             intoArriveLiuZhou.setCellStyle(titleStyle);

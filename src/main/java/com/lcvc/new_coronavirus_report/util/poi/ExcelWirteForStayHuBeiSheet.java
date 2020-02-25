@@ -140,14 +140,14 @@ public class ExcelWirteForStayHuBeiSheet {
 
             XSSFCell leaveLiuZhou = listRow.createCell(8);
             if (list.get(i).getLeaveLiuZhou()!=null){
-                SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd");
+                SimpleDateFormat formatter=new SimpleDateFormat("yyyyMMdd");
                 leaveLiuZhou.setCellValue(formatter.format(list.get(i).getLeaveLiuZhou()));
             }
             leaveLiuZhou.setCellStyle(titleStyle);
 
             XSSFCell arriveLiuZhou = listRow.createCell(9);
             if (list.get(i).getArriveLiuZhou()!=null){
-                SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd");
+                SimpleDateFormat formatter=new SimpleDateFormat("yyyyMMdd");
                 arriveLiuZhou.setCellValue(formatter.format(list.get(i).getArriveLiuZhou()));
             }
             arriveLiuZhou.setCellStyle(titleStyle);
