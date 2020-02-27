@@ -1,8 +1,10 @@
 package com.lcvc.new_coronavirus_report.service;
 
 import com.lcvc.new_coronavirus_report.dao.StrandQuestionnaireDao;
+import com.lcvc.new_coronavirus_report.dao.TeacherDao;
 import com.lcvc.new_coronavirus_report.model.Strand;
 import com.lcvc.new_coronavirus_report.model.StrandCount;
+import com.lcvc.new_coronavirus_report.model.Teacher;
 import com.lcvc.new_coronavirus_report.model.base.PageObject;
 import com.lcvc.new_coronavirus_report.model.exception.MyWebException;
 import com.lcvc.new_coronavirus_report.model.query.StrandQuery;
@@ -15,6 +17,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 import java.util.List;
 
 @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, timeout = 36000, rollbackFor = Exception.class)
@@ -23,7 +26,8 @@ import java.util.List;
 public class StrandService {
     @Autowired
     private StrandQuestionnaireDao strandQuestionnaireDao;
-
+    @Autowired
+    private TeacherDao teacherDao;
     /**
      * 保存填表人的表单
      */
@@ -35,7 +39,7 @@ public class StrandService {
         if (StringUtils.isEmpty(strand.getCurrentCity())) {
             throw new MyWebException("提交失败：必须填写目前所在城市");
         }
-        if (strand.getMyHealth() == null) {
+        if (StringUtils.isEmpty(strand.getMyHealth())||strand.getMyHealth() == null) {
             throw new MyWebException("提交失败：必须填写健康状况");
         }
         if (StringUtils.isEmpty(strand.getWorkType())) {
@@ -100,18 +104,38 @@ public class StrandService {
         strandCount.setSchoolSection("高职");
         //教职工人数
         strandQuery = new StrandQuery();
-        strandQuery.setWeekQuery(true);
+        strandQuery.setCount(true);
         strandCount.setTeacherNum(strandQuestionnaireDao.querySize(strandQuery));
 
         //本周内预计返柳人数
         strandQuery = new StrandQuery();
         strandQuery.setReturnLiuZhouQuery(true);//查询本周返回柳州的记录
         strandQuery.setReturnLiuZhou(true);  //查询返回柳州
+        strandQuery.setCount(true);
         strandCount.setReturnLiuZhouNum(strandQuestionnaireDao.querySize(strandQuery));
 
         //滞留疫区无法返回教职工人数
-        strandCount.setStrandNum(strandCount.getTeacherNum() - strandCount.getReturnLiuZhouNum());
+        strandQuery = new StrandQuery();
+        strandQuery.setReturnLiuZhou(false);  //查询返回柳州
+        strandQuery.setCount(true);
+        strandCount.setStrandNum(strandQuestionnaireDao.querySize(strandQuery));
 
         return strandCount;
+    }
+
+    /**
+     * 滞留模块：判断是否有人提交过
+     * @param teacherName 传入教师名字
+     * @return null表示没有本周的填报记录
+     */
+    public Boolean getStrandQuestionnaire(String teacherName){
+
+        StrandQuery strandQuery=new StrandQuery();
+        strandQuery.setWeekQuery(true);//查找本周的记录
+        strandQuery.setName(teacherName);
+            if (strandQuestionnaireDao.readAll(strandQuery).size()>0){
+                return false;
+            }
+        return true;
     }
 }

@@ -45,5 +45,4 @@ public class TeacherController {
         map.put(Constant.JSON_DATA,teacher);
         return map;
     }
-
 }

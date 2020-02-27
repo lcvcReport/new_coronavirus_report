@@ -13,14 +13,20 @@
     <sql id="queryWhere">
         <if test="objectQuery!=null">
             <where>
-                <if test="objectQuery.returnLiuZhouQuery!=null">
+                <if test="objectQuery.count!=null and objectQuery.count==true">
+                    not exists (select * from teacherstrand_questionnaire b where teacherstrand_questionnaire.name = b.name and teacherstrand_questionnaire.createTime &lt; b.createTime )
+                </if>
+                <if test="objectQuery.returnLiuZhouQuery!=null and objectQuery.returnLiuZhouQuery==true">
                     and YEARWEEK(date_format(returnLiuZhouTime,'%Y-%m-%d'),1) = YEARWEEK(now(),1)
                 </if>
-                <if test="objectQuery.weekQuery!=null">
+                <if test="objectQuery.weekQuery!=null and objectQuery.weekQuery==true">
                     and YEARWEEK(date_format(createTime,'%Y-%m-%d'),1) = YEARWEEK(now(),1)
                 </if>
                 <if test="objectQuery.returnLiuZhou!=null">
                     and returnLiuZhou=#{objectQuery.returnLiuZhou}
+                </if>
+                <if test="objectQuery.name!=null">
+                    and name=#{objectQuery.name}
                 </if>
             </where>
         </if>

@@ -18,14 +18,16 @@ public class StrandServiceTest {
     @Test
     public void testSave(){
         Strand strand =new Strand();
-        strand.setName("");
+        Date date=new Date();
+        date.setTime(2020-02-26);
+        strand.setName("xiaom");
         strand.setUnit("柳州城职");
         strand.setCurrentCity("湖北武汉");
         strand.setMyHealth("健康");
         strand.setWorkType("软件技术");
         strand.setReason("因病治疗");
         strand.setReturnLiuZhou(true);
-        strand.setReturnLiuZhouTime(new Date());
+        strand.setReturnLiuZhouTime(date);
         strand.setReturnLiuZhouWay("高铁");
         strand.setIntro("没有说明");
         strand.setCreateTime(new Date());

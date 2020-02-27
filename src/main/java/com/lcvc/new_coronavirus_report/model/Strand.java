@@ -13,7 +13,7 @@ public class Strand {
     private String workType;    //承担课程或岗位任课教师填承担课程名称（如：语文、数学，同时兼任的其他工作不需填写），非任课教师填工作岗位（如：办公室干事、保安）。
     private  String reason;   //无法返回原因
     private  Boolean returnLiuZhou;  //本周内是否返柳
-    @JsonFormat(pattern = "yyyyMMdd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date returnLiuZhouTime;  //计划返柳时间
     private String returnLiuZhouWay;  //计划返柳交通工具
     private  String intro;          //备注
