@@ -307,6 +307,7 @@ public class QuestionnaireService {
         if(list.size()==1){
             questionnaire=list.get(0);//获取昨天的投票记录
         }else  if(list.size()>1){//如果有2条及以上，说明数据库异常
+            questionnaire=list.get(0);//获取昨天的投票记录
             list.remove(0);//保留其中一条
             questionnaireDao.deleteObjects(list);//删除多余的记录数
             //throw new MyServiceException("异常：系统检测到您的数据库出现异常，请联系系统管理员");
