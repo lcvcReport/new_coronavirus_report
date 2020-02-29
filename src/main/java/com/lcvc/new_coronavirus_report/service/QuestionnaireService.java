@@ -42,12 +42,11 @@ public class QuestionnaireService {
      * @param questionnaire
      * @param ip
      */
-    @Transactional(rollbackFor = Exception.class)
     public void save(@NotNull Questionnaire questionnaire,String ip){
         //设置IP地址
         questionnaire.setIp(ip);
         //必备字段验证，不加spring验证框架
-        if(questionnaire.getIdentity()==null){
+        if(StringUtils.isEmpty(questionnaire.getIdentity())){
             throw new MyWebException("提交失败：必须填写身份信息");
         }
         //验证教工号或学号，并赋予相应信息
@@ -308,7 +307,9 @@ public class QuestionnaireService {
         if(list.size()==1){
             questionnaire=list.get(0);//获取昨天的投票记录
         }else  if(list.size()>1){//如果有2条及以上，说明数据库异常
-            throw new MyServiceException("异常：系统检测到您的数据库出现异常，请联系系统管理员");
+            list.remove(0);//保留其中一条
+            questionnaireDao.deleteObjects(list);//删除多余的记录数
+            //throw new MyServiceException("异常：系统检测到您的数据库出现异常，请联系系统管理员");
         }
         return questionnaire;
     }
