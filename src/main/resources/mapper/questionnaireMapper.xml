@@ -32,6 +32,14 @@
         </foreach>
     </delete>
 
+
+    <delete id="deleteObjects" >
+        delete from questionnaire where id in
+        <foreach item="item" collection="collection" open="(" separator="," close=")">
+            #{item.id}
+        </foreach>
+    </delete>
+
     <select id="total"  resultType="Integer">
         select count(1) from questionnaire
     </select>

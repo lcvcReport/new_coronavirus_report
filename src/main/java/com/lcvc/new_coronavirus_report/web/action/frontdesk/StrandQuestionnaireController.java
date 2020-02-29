@@ -28,8 +28,14 @@ public class StrandQuestionnaireController {
     @PostMapping("strandQuestionnaire")
     public Map<String, Object> save(@RequestBody Strand strand) {
         Map<String, Object> map = new HashMap<String, Object>();
-        strandService.save(strand);
-        map.put(Constant.JSON_CODE, JsonCode.SUCCESS.getValue());
+        Boolean stutas=strandService.getStrandQuestionnaire(strand.getName());
+        if (!stutas){
+            map.put(Constant.JSON_CODE, JsonCode.ERROR.getValue());
+            map.put(Constant.JSON_MESSAGE, "本周已经提交过调查表，请下周再来");
+        }else{
+            strandService.save(strand);
+            map.put(Constant.JSON_CODE, JsonCode.SUCCESS.getValue());
+        }
         return map;
     }
 

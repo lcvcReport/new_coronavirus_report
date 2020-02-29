@@ -61,7 +61,7 @@ public interface IBaseDao<T>{
 	 *批量删除集合对象
 	 * @param collection
 	 */
-	void deleteObjects(@Param(value = "collection")Collection<DailyReport> collection);
+	void deleteObjects(@Param(value = "collection")Collection<T> collection);
 	
 	/**
 	 * 获取表中符合条件的所有记录

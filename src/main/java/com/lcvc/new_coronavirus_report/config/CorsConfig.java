@@ -24,8 +24,8 @@ public class CorsConfig implements WebMvcConfigurer {
     private List<String> originsList = new ArrayList<String>() {{
         add("http://localhost:80");
         add("http://127.0.0.1:80");
-        add("http://localhost:8080");
-        add("http://127.0.0.1:8080");
+        add("http://localhost:8081");
+        add("http://127.0.0.1:8081");
         add("http://120.76.118.101");//ljy的服务器
         add("http://47.103.0.255:8080");//朱晓茵的服务器
         add("http://220.173.103.143");//学校的服务器
