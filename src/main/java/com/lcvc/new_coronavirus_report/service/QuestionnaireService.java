@@ -40,8 +40,9 @@ public class QuestionnaireService {
     /**
      * 保存填表人的表单
      * @param questionnaire
-     * @param ip
+     * @param
      */
+    @Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.SERIALIZABLE,timeout=36000,rollbackFor=Exception.class)
     public void save(@NotNull Questionnaire questionnaire,String ip){
         //设置IP地址
         questionnaire.setIp(ip);
